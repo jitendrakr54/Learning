@@ -1,0 +1,6 @@
+. touch command is used to create file that file is by default txt.Eg:-touch filename.
+. By touching a file you either create it if it did not exists (with 0 length).
+. Or you update it’s last modification and access times.
+. There are options to override the default behavior.
+.   touch file
+.   man touch

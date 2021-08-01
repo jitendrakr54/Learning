@@ -1,0 +1,896 @@
+OOPS:
+	Object-oriented programming (OOP) provides us with the ability to create objects that tie together both properties and behaviors into a self-
+	contained, reusable package.
+
+Class:
+	Class (and struct) definitions are like a blueprint -- they describe what the resulting object will look like, but they do not actually create 
+	the object. To actually create an object of the class, a variable of that class type must be defined.
+	The class keyword lets us create a custom type in C++ that can contain both member variables and member functions. 
+	Classes form the basis for Object-oriented programming.
+
+Access Specifiers:
+	An access specifier determines who has access to the members that follow the specifier.
+
+Encapsulation:
+	. Encapsulation (also called information hiding) is the process of keeping the details about how an object is implemented hidden away from users 
+	  of the object.
+
+	. In C++, we implement encapsulation via access specifiers. Typically, all member variables of the class are made private (hiding the implementation
+	  details), and most member functions are made public (exposing an interface for the user).
+
+	. The word encapsulation is also sometimes used to refer to the packaging of data and functions that work on that data together.
+
+	. Benefit: 
+	  1. encapsulated classes are easier to use and reduce the complexity of your programs.
+	  2. encapsulated classes help protect your data and prevent misuse.
+	  3. encapsulated classes are easier to change.
+	  4. encapsulated classes are easier to debug.
+
+	Access functions:
+		. An access function is a short public function whose job is to retrieve or change the value of a private member variable.
+          Access functions typically come in two flavors: getters and setters. Getters (also sometimes called accessors) are functions that 
+		  return the value of a private member variable. Setters (also sometimes called mutators) are functions that set the value of a private 
+		  member variable.
+
+		. Getters should provide “read-only” access to data. Getters should return by value or const reference.
+
+Abstraction:
+	. Abstraction means displaying only essential information and hiding the details. 
+	. Data abstraction refers to providing only essential information about the data to the outside world, hiding the background details
+	. or implementation.
+
+Constructors:
+	. A constructor is a special kind of class member function that is automatically called when an object of that class is instantiated. 
+	  Constructors are typically used to initialize member variables of the class to appropriate default or user-provided values, or to do any setup 
+	  steps necessary for the class to be used (e.g. open a file or database).
+
+	. Default constructors:
+		A constructor that takes no parameters (or has parameters that all have default values) is called a default constructor. The default 
+		constructor is called if no user-provided initialization values are provided.
+
+	. Implicit constructor:
+		If your class has no constructors, C++ will automatically generate a public default constructor for you. This is sometimes called an 
+		implicit constructor (or implicitly generated constructor).
+
+	. Using = default:
+		is almost the same as adding a default constructor with an empty body. The only difference is that = default allows us to safely 
+		initialize member variables even if they don’t have an initializer.  Date() = default;
+
+	. class-type members get initialized even if we don’t explicitly initialize them.
+
+	. Constructors actually serve two purposes. First, constructors determine who is allowed to create an object. That is, an object of a class can 
+	  only be created if a matching constructor can be found.
+
+	. Second, constructors can be used to initialize objects. Whether the constructor actually does an initialization is up to the programmer. 
+	  It’s syntactically valid to have a constructor that does no initialization at all (the constructor still serves the purpose of allowing the 
+	  object to be created, as per the above).
+
+	. Member initializer lists:
+		C++ provides a method for initializing class member variables (rather than assigning values to them after they are created) via a member 
+		initializer list (often called a “member initialization list”). Do not confuse these with the similarly named initializer list that 
+		we can use to assign values to arrays.
+		eg: 
+			int value1 = 1; // copy initialization
+			double value2(2.2); // direct initialization
+			char value3 {'c'}; // uniform initialization
+
+			Something() : m_value1{ 1 }, m_value2{ 2.2 }, m_value3{ 'c' } {} // Initialize our member variables
+
+	. Non-static member initialization:
+		Non-static member initialization (also called in-class member initializers) provides default values for your member variables that your 
+		constructors will use if the constructors do not provide initialization values for the members themselves (via the member initialization list).
+		eg:
+			class Rectangle {
+				private:
+					double m_length{ 1.0 }; // m_length has a default value of 1.0
+					double m_width{ 1.0 }; // m_width has a default value of 1.0
+			}
+
+    . Delegating constructors in C++11:
+		. Starting with C++11, constructors are now allowed to call other constructors. This process is called delegating constructors (or constructor
+			chaining).
+
+		. Prior to C++11, calling a constructor explicitly from another constructor creates a temporary object, initializes the temporary object
+		  using the constructor, and then discards it, leaving your original object unchanged.
+		eg:
+			Make sure you’re calling the constructor from the member initializer list, not in the body of the constructor.
+			Foo() {
+				// code to do A
+			}
+		
+			Foo(int value): Foo() // use Foo() default constructor to do A
+			{
+				// code to do B
+			}
+
+    	. A few additional notes about delegating constructors. First, a constructor that delegates to another constructor is not allowed to do any 
+		  member initialization itself. So your constructors can delegate or initialize, but not both.
+
+		. Second, it’s possible for one constructor to delegate to another constructor, which delegates back to the first constructor. This forms 
+		  an infinite loop, and will cause your program to run out of stack space and crash. You can avoid this by ensuring all of your constructors 
+		  resolve to a non-delegating constructor.
+
+
+Destructors:
+	. A destructor is another special kind of class member function that is executed when an object of that class is destroyed. Whereas constructors 
+	  are designed to initialize a class, destructors are designed to help clean up.
+
+	. When an object goes out of scope normally, or a dynamically allocated object is explicitly deleted using the delete keyword, the class 
+	  destructor is automatically called (if it exists) to do any necessary clean up before the object is removed from memory. For simple classes 
+	  (those that just initialize the values of normal member variables), a destructor is not needed because C++ will automatically clean up the 
+	  memory for you.
+
+	. RAII:
+	  . RAII (Resource Acquisition Is Initialization) is a programming technique whereby resource use is tied to the lifetime of objects with automatic
+	    duration (e.g. non-dynamically allocated objects). In C++, RAII is implemented via classes with constructors and destructors.
+	
+	  .	The primary advantage of RAII is that it helps prevent resource leaks (e.g. memory not being deallocated) as all resource-holding objects are
+	    cleaned up automatically.
+
+. this pointer:
+	. The hidden “this” pointer:
+	  One of the questions about classes that new object-oriented programmers often ask is, “When a member function is called, how does C++ keep 
+	  track of which object it was called on?”. The answer is that C++ utilizes a hidden pointer named “this”! Let’s take a look at “this” in more 
+	  detail.
+
+	  1) When we call simple.setID(2), the compiler actually calls setID(&simple, 2).
+	  1) void setID(Simple* const this, int id) { this->m_id = id; }
+	  2) Inside setID(), the “this” pointer holds the address of object simple.
+	  3) Any member variables inside setID() are prefixed with “this->”. So when we say m_id = id, the compiler is actually executing this->m_id = id,
+	     which in this case updates simple.m_id to id.
+
+	. When the compiler compiles a normal member function, it implicitly adds a new parameter to the function named “this”. The this pointer is a 
+	  hidden const pointer that holds the address of the object the member function was called on.
+
+	. void setID(Simple* const this, int id) { this->m_id = id; }
+
+Class code and header files:
+	. As classes get longer and more complicated, having all the member function definitions inside the class can make the class harder to manage and 
+	  work with.
+
+	one-definition rule
+
+const member function:
+	. A const member function is a member function that guarantees it will not modify the object or call any non-const member functions 
+	  (as they may modify the object).
+	  eg: int getValue() const { return m_value; } 
+
+	. constructors cannot be marked as const. This is because constructors need to be able to initialize their member variables, and a const 
+	  constructor would not be able to do so. Consequently, the language disallows const constructors.	
+
+	. Make any member function that does not modify the state of the class object const, so that it can be called by const objects.
+
+	. Overloading const and non-const function:
+	  Finally, although it is not done very often, it is possible to overload a function in such a way to have a const and non-const version of the 
+	  same function.
+
+Static member variable:
+	. Unlike normal member variables, static member variables are shared by all objects of the class.
+	  Static members are not associated with class objects, Consequently, it is better to think of static members as belonging to the class itself,
+	  not to the objects of the class.
+	  Uses:
+			. To assign a unique ID to every instance of the class.
+
+	. When we declare a static member variable inside a class, we’re telling the compiler about the existence of a static member variable, but not 
+	  actually defining it (much like a forward declaration). Because static member variables are not part of the individual class objects 
+	  (they are treated similarly to global variables, and get initialized when the program starts), you must explicitly define the static member 
+	  outside of the class, in the global scope.
+	  eg: int Something::s_value{ 1 };
+	
+	. This line serves two purposes: it instantiates the static member variable (just like a global variable), and optionally initializes it. In this
+	  case, we’re providing the initialization value 1. If no initializer is provided, C++ initializes the value to 0.
+	
+	. when the static member is a const integral type (which includes char and bool) or a const enum.
+		 static const int s_value{ 4 }
+	. static constexpr members can be initialized inside the class definition
+		 static constexpr double s_value{ 2.2 };
+		 
+Static member Function:
+	. we can’t access static member variable which is private. Normally we access private members through public member functions.
+	  While we could create a normal public member function to access static member variable, we’d then need to instantiate an object of the class type
+	  to use the function! We can do better. It turns out that we can also make functions static.
+	
+Friend Fucntion:
+	. A friend function or class is a function or class that can access the private members of another class as though it were a member of that class.
+	  This allows the friend or class to work intimately with the other class, without making the other class expose its private members 
+	  (e.g. via access functions).
+
+	. Friending is uncommonly used when two or more classes need to work together in an intimate way, or much more commonly, when defining overloading
+	  operators.
+
+	. Friending doesn't break encapsulation because it's the class who tells some function is my friend, not outsider function.
+	. Friend function can be used to test our classes.
+
+Anonymous objects:
+	. An anonymous object is essentially a value that has no name. Because they have no name, there’s no way to refer to them beyond the point where 
+	  they are created. Consequently, they have “expression scope”, meaning they are created, evaluated, and destroyed all within a single expression.
+	  eg:
+		int add(int x, int y)
+		{
+			return x + y; // an anonymous object is created to hold and return the result of x + y
+		}
+ 
+	. Anonymous class objects:
+	  It is possible to construct anonymous objects of our own class types as well. This is done by creating objects like normal, but omitting the 
+	  variable name.
+      eg:
+		Cents cents(5); // normal variable
+		Cents(7); // anonymous object
+
+	. In C++, anonymous objects are primarily used either to pass or return values without having to create lots of temporary variables to do so. 
+	  Memory allocated dynamically is also done so anonymously (which is why its address must be assigned to a pointer, otherwise we’d have no way 
+	  to refer to it).
+
+	. However, it is worth noting that anonymous objects are treated as rvalues (not lvalues, which have an address) -- therefore, all rules about 
+	  passing and returning rvalues apply.
+
+	. It is also worth noting that because anonymous objects have expression scope, they can only be used once. If you need to reference a value in
+	  multiple expressions, you should use a named variable instead.
+
+	. Note: Some compilers, such as Visual Studio, will let you set non-const references to anonymous objects. This is non-standard behavior.
+
+Nested types in classes:
+	. Unlike functions, which can’t be nested inside each other, in C++, types can be defined (nested) inside of a class. To do this, you simply 
+	  define the type inside the class, under the appropriate access specifier.
+	  eg:  Here’s the same program as above, with FruitType defined inside the class.
+		class Fruit
+		{
+			public:
+			// Note: we've moved FruitType inside the class, under the public access specifier
+				enum FruitType
+				{
+					APPLE,
+					BANANA,
+					CHERRY
+				};
+		};
+
+=====================================================================================================================================================
+
+
+Operator Overloading:
+	. In C++, operators are implemented as functions. By using function overloading on the operator functions, you can define your own versions of 
+	  the operators that work with different data types (including classes that you’ve written). Using function overloading to overload operators 
+	  is called operator overloading.
+
+	. What are the limitations on operator overloading?
+      . First, almost any existing operator in C++ can be overloaded. The exceptions are: conditional (?:), sizeof, scope (::), member selector (.),
+	    member pointer selector (.*), typeid, and the casting operators.
+	  . Second, you can only overload the operators that exist. You can not create new operators or rename existing operators. For example, you could
+	    not create an operator ** to do exponents.
+	  . Third, at least one of the operands in an overloaded operator must be a user-defined type. This means you can not overload the plus operator
+	    to work with one integer and one double. However, you could overload the plus operator to work with an integer and a Mystring.
+      . Fourth, it is not possible to change the number of operands an operator supports.
+      . Finally, all operators keep their default precedence and associativity (regardless of what they’re used for) and this can not be changed.
+	
+	. When overloading operators, it’s best to keep the function of the operators as close to the original intent of the operators as possible.
+
+	. If the meaning of an operator when applied to a custom class is not clear and intuitive, use a named function instead.
+
+	. There are three different ways to overload operators: 
+		the member function way, 
+		the friend function way, 
+		and the normal function way.
+
+	. Prefer overloading operators as normal functions instead of friends if it’s possible to do so without adding additional functions.
+
+	. Overloading operators using member functions:
+		. The overloaded operator must be added as a member function of the left operand.
+		. The left operand becomes the implicit *this object
+		. All other operands become function parameters.
+
+		Typically, we won’t be able to use a member overload if the left operand is either not a class (e.g. int), or it is a class that we can’t 
+		modify (e.g. std::ostream).
+
+	. The following rules of thumb can help you determine which form is best for a given situation:
+
+		. If you’re overloading assignment (=), subscript ([]), function call (()), or member selection (->), do so as a member 
+		  function.
+		. If you’re overloading a unary operator, do so as a member function.
+		. If you’re overloading a binary operator that does not modify its left operand (e.g. operator+), do so as a normal 
+		  function(preferred) or friend function.
+		. If you’re overloading a binary operator that modifies its left operand, but you can’t modify the definition of the left operand 
+		  (e.g. operator<<, which has a left operand of type ostream), do so as a normal function (preferred) or friend function.
+		. If you’re overloading a binary operator that modifies its left operand (e.g. operator+=), and you can modify the 
+		  definition of the left operand, do so as a member function.
+
+	. Because unary only operate on the object they are applied to, typically unary operator overloads are implemented as member functions.
+
+	. Overloading postfix increment and decrement:
+	  Normally, functions can be overloaded when they have the same name but a different number and/or different type of parameters. However, 
+	  consider the case of the prefix and postfix increment and decrement operators. Both have the same name (eg. operator++), are unary, 
+	  and take one parameter of the same type. So how it is possible to differentiate the two when overloading?
+
+	. The answer is that C++ uses a “dummy variable” or “dummy argument” for the postfix operators. This argument is a fake integer parameter that 
+	  only serves to distinguish the postfix version of increment/decrement from the prefix version. Here is the above Digit class with both prefix 
+	  and postfix overloads:
+
+	. Digit& Digit::operator++()
+	  {
+		// If our number is already at 9, wrap around to 0
+		if (m_digit == 9)
+			m_digit = 0;
+		// otherwise just increment to next number
+		else
+			++m_digit;
+	
+		return *this;
+	  }
+
+	. Digit Digit::operator++(int)
+	  {
+    	// Create a temporary variable with our current digit
+    	Digit temp(m_digit);
+ 
+    	// Use prefix operator to increment this digit
+    	++(*this); // apply operator
+ 
+    	// return temporary result
+    	return temp; // return saved state
+	  }
+
+	. Overloading subscript operator:
+		int& IntList::operator[] (int index)
+		{
+    		assert(index >= 0 && index < 10);
+ 
+    		return m_list[index];
+		}
+
+copy constructor:
+	. A copy constructor is a special type of constructor used to create a new object as a copy of an existing object.
+	  And much like a default constructor, if you do not provide a copy constructor for your classes, C++ will create a public copy constructor 
+	  for you. Because the compiler does not know much about your class, by default, the created copy constructor utilizes a method of initialization
+	  called memberwise initialization. Memberwise initialization simply means that each member of the copy is initialized directly from the member
+	  of the class being copied.
+
+	. Preventing copies:
+	  We can prevent copies of our classes from being made by making the copy constructor private or using the delete keyword.
+	  eg: 
+		Fraction(const Fraction &copy) = delete;
+		Fraction& operator= (const Fraction &fraction) = delete; 
+
+Shallow Copying:
+	. C++ does not know much about your class, the default copy constructor and default assignment operators it provides use a copying method known as
+	  a memberwise copy (also known as a shallow copy). This means that C++ copies each member of the class individually (using the assignment 
+	  operator for overloaded operator=, and direct initialization for the copy constructor). When classes are simple (e.g. do not contain any 
+	  dynamically allocated memory), this works very well.
+
+	. when designing classes that handle dynamically allocated memory, memberwise (shallow) copying can get us in a lot of trouble! This is because
+	  shallow copies of a pointer just copy the address of the pointer -- it does not allocate any memory or copy the contents being pointed to.
+
+Assignment vs Copy constructor:
+	. The purpose of the copy constructor and the assignment operator are almost equivalent -- both copy one object to another. 
+	  However, the copy constructor initializes new objects, whereas the assignment operator replaces the contents of existing objects.
+
+	. If a new object has to be created before the copying can occur, the copy constructor is used (note: this includes passing or 
+	  returning objects by value).
+	. If a new object does not have to be created before the copying can occur, the assignment operator is used.
+	
+Deep copying:
+	. A deep copy allocates memory for the copy and then copies the actual value, so that the copy lives in distinct memory from the source. 
+	  This way, the copy and source are distinct and will not affect each other in any way. Doing deep copies requires that we write our own copy 
+	  constructors and overloaded assignment operators.
+
+	. The default copy constructor and default assignment operators do shallow copies, which is fine for classes that contain no dynamically allocated
+	  variables.
+ 	. Classes with dynamically allocated variables need to have a copy constructor and assignment operator that do a deep copy.
+	. Favor using classes in the standard library over doing your own memory management.
+
+	eg:	// assumes m_data is initialized
+		void MyString::deepCopy(const MyString& source) {
+			// first we need to deallocate any value that this string is holding!
+			delete[] m_data;
+			// because m_length is not a pointer, we can shallow copy it
+			m_length = source.m_length;
+		
+			// m_data is a pointer, so we need to deep copy it if it is non-null
+			if (source.m_data)
+			{
+				// allocate memory for our copy
+				m_data = new char[m_length];		
+				// do the copy
+				for (int i{ 0 }; i < m_length; ++i)
+					m_data[i] = source.m_data[i];
+			}
+			else
+				m_data = nullptr;
+		}
+		
+		// Copy constructor
+		MyString::MyString(const MyString& source) {
+			deepCopy(source);
+		}
+
+
+
+Object Composition:
+	. This process of building complex objects from simpler ones is called object composition.
+	  In C++, you’ve already seen that structs and classes can have data members of various types (such as fundamental types or other classes). 
+	  When we build classes with data members, we’re essentially constructing a complex object from simpler parts, which is object composition. 
+	  For this reason, structs and classes are sometimes referred to as composite types.
+
+	Types of object composition:
+		There are two basic subtypes of object composition: composition and aggregation.
+
+	Composition:
+		To qualify as a composition, an object and a part must have the following relationship:
+
+		. The part (member) is part of the object (class)
+		. The part (member) can only belong to one object (class) at a time
+		. The part (member) has its existence managed by the object (class)
+		. The part (member) does not know about the existence of the object (class)
+
+		composition is sometimes called a “death relationship”.
+		eg: Human-heart, Creature-Point 
+
+	Aggregation:
+
+		To qualify as an aggregation, a whole object and its parts must have the following relationship:
+
+		. The part (member) is part of the object (class)
+		. The part (member) can belong to more than one object (class) at a time
+		. The part (member) does not have its existence managed by the object (class)
+		. The part (member) does not know about the existence of the object (class)
+
+		When an aggregation is created, the aggregation is not responsible for creating the parts. When an aggregation is destroyed, 
+		the aggregation is not responsible for destroying the parts.
+
+	Summarizing composition and aggregation:
+			Compositions:
+			. Typically use normal member variables
+			. Can use pointer members if the class handles object allocation/deallocation itself
+			. Responsible for creation/destruction of parts
+
+			Aggregations:
+			. Typically use pointer or reference members that point to or reference objects that live outside the scope of the aggregate class
+			. Not responsible for creating/destroying parts
+
+	. std::reference_wrapper:
+		std::reference_wrapper is a class that acts like a reference, but also allows assignment and copying, so it’s compatible with lists like 
+		std::vector.
+		eg:
+			std::vector<std::reference_wrapper<std::string>> names{ tom, berta };
+			std::string jim{ "Jim" };
+			names.push_back(jim);
+
+  	Association:
+		To qualify as an association, an object and another object must have the following relationship:
+
+		. The associated object (member) is otherwise unrelated to the object (class)
+		. The associated object (member) can belong to more than one object (class) at a time
+		. The associated object (member) does not have its existence managed by the object (class)
+		. The associated object (member) may or may not know about the existence of the object (class)
+		. association models as “uses-a” relationship
+
+	. Composition vs aggregation vs association summary
+			Property									Composition		Aggregation			Association
+		Relationship type								Whole/part		Whole/part			Otherwise unrelated
+		Members can belong to multiple classes				No			Yes						Yes
+		Members existence managed by class					Yes			No						No
+		Directionality									Unidirectional	Unidirectional			Unidirectional or bidirectional
+		Relationship verb								Part-of				Has-a				Uses-a
+
+	. Dependencies:
+		. In casual conversation, we use the term dependency to indicate that an object is reliant upon another object for a given task. For example, 
+		  if you break your foot, you are dependent on crutches to get around (but not otherwise). Flowers are dependent upon bees to pollinate them, 
+		  in order to grow fruit or propagate (but not otherwise).
+
+		. A dependency occurs when one object invokes another object’s functionality in order to accomplish some specific task. This is a weaker 
+		  relationship than an association, but still, any change to object being depended upon may break functionality in the (dependent) caller. 
+		  A dependency is always a unidirectional relationship.
+
+		. A good example of a dependency that you’ve already seen many times is std::cout (of type std::ostream). Our classes that use std::cout 
+		  use it in order to accomplish the task of printing something to the console, but not otherwise.
+
+	. Container classes:
+		. A container class is a class designed to hold and organize multiple instances of another type (either another class, or a fundamental type).
+		  There are many different kinds of container classes, each of which has various advantages, disadvantages, and restrictions in their use.
+
+		. Types of containers
+			Container classes generally come in two different varieties. Value containers are compositions that store copies of the objects that 
+			they are holding (and thus are responsible for creating and destroying those copies). Reference containers are aggregations that store 
+			pointers or references to other objects (and thus are not responsible for creation or destruction of those objects).
+
+		. Unlike in real life, where containers can hold whatever types of objects you put in them, in C++, containers typically only hold one 
+		  type of data. For example, if you have an array of integers, it will only hold integers. Unlike some other languages, many C++ containers
+		  do not allow you to arbitrarily mix types. If you need containers to hold integers and doubles, you will generally have to write two 
+		  separate containers to do this (or use templates, which is an advanced C++ feature). Despite the restrictions on their use, 
+		  containers are immensely useful, and they make programming easier, safer, and faster.
+		  
+	. std::initializer_list:
+		. When a compiler sees an initializer list, it automatically converts it into an object of type std::initializer_list. Therefore, if we create 
+		  a constructor that takes a std::initializer_list parameter, we can create objects using the initializer list as an input.
+		. std::initializer_list lives in the <initializer_list> header.
+		eg:
+			IntArray(std::initializer_list<int> list){}
+			IntArray array{ 5, 4, 3, 2, 1 };
+
+====================================================================================================================================================
+
+Inheritance:
+	. Unlike object composition, which involves creating new objects by combining and connecting other objects, inheritance involves creating new 
+	  objects by directly acquiring the attributes and behaviors of other objects and then extending or specializing them.	
+	. Inheritance allows us to reuse classes by having other classes inherit their members.
+	. Because Derived inherits functions and variables from Base, you may assume that the members of Base are copied into Derived. However, this is 
+	  not true. Instead, we can consider Derived as a two part class: one part Derived, and one part Base.
+	. When C++ constructs derived objects, it does so in phases. First, the most-base class (at the top of the inheritance tree) is constructed first.
+	  Then each child class is constructed in order, until the most-child class (at the bottom of the inheritance tree) is constructed last.
+
+	. Why is this kind of inheritance useful?
+	  Inheriting from a base class means we don’t have to redefine the information from the base class in our derived classes. We automatically
+	  receive the member functions and member variables of the base class through inheritance, and then simply add the additional functions or member
+	  variables we want. This not only saves work, but also means that if we ever update or modify the base class (e.g. add new functions, or fix a bug),
+	  all of our derived classes will automatically inherit the changes!
+
+	. Inheritance allows us to reuse classes by having other classes inherit their members.
+
+	. When We instantiate derived class, Derived is really two parts: a Base part, and a Derived part. When C++ constructs derived objects, it does
+	  so in phases. First, the most-base class (at the top of the inheritance tree) is constructed first. Then each child class is constructed in 
+	  order, until the most-child class (at the bottom of the inheritance tree) is constructed last.
+
+	. So when we instantiate an instance of Derived, first the Base portion of Derived is constructed (using the Base default constructor). Once the
+	  Base portion is finished, the Derived portion is constructed (using the Derived default constructor). At this point, there are no more derived
+	  classes, so we are done.
+
+	. This makes sense: logically, a child can not exist without a parent. It’s also the safe way to do things: the child class often uses variables
+	  and functions from the parent, but the parent class knows nothing about the child. Instantiating the parent class first ensures those variables
+	  are already initialized by the time the derived class is created and ready to use them.
+
+	. Initializing Base class member variables:
+	  C++ prevents classes from initializing inherited member variables in the initialization list of a constructor. In other words, the value of a
+	  member variable can only be set in an initialization list of a constructor belonging to the same class as the variable.
+	  eg:	
+	    Derived(double cost=0.0, int id=0)
+        // does not work
+        : m_cost{ cost }, m_id{ id }
+    	{}
+
+    . Why does C++ do this? The answer has to do with const and reference variables. Consider what would happen if m_id were const. Because const
+	  variables must be initialized with a value at the time of creation, the base class constructor must set its value when the variable is created.
+	  However, when the base class constructor finishes, the derived class constructors initialization lists are then executed. Each derived class 
+	  would then have the opportunity to initialize that variable, potentially changing its value! By restricting the initialization of variables to
+	  the constructor of the class those variables belong to, C++ ensures that all variables are initialized only once.
+
+	. The end result is that the above example does not work because m_id was inherited from Base, and only non-inherited variables can be initialized
+	  in the initialization list.
+
+	. However, inherited variables can still have their values changed in the body of the constructor using an assignment. Consequently, new 
+	  programmers often also try this:
+	  eg: 
+		Derived(double cost=0.0, int id=0)
+		: m_cost{ cost }
+		{
+			m_id = id;+
+		}
+	. While this actually works in this case, it wouldn’t work if m_id were a const or a reference (because const values and references have to be
+	  initialized in the initialization list of the constructor). It’s also inefficient because m_id gets assigned a value twice: once in the 
+	  initialization list of the Base class constructor, and then again in the body of the Derived class constructor. And finally, what if the Base
+	  class needed access to this value during construction? It has no way to access it, since it’s not set until the Derived constructor is executed
+	  (which pretty much happens last).
+
+	. Fortunately, C++ gives us the ability to explicitly choose which Base class constructor will be called! To do this, simply add a call to the
+	  base class Constructor in the initialization list of the derived class:
+	  eg:
+		Derived(double cost=0.0, int id=0)
+        : Base{ id }, // Call Base(int) constructor with value id!
+            m_cost{ cost }
+    	{}
+
+    . Destructors:
+		When a derived class is destroyed, each destructor is called in the reverse order of construction. In the above example, when c is destroyed, 
+		the C destructor is called first, then the B destructor, then the A destructor.
+
+	. Inheritance Types:
+
+		Access specifier         Access specifier when         Access specifier when          Access specifier when inherited 
+		in base class:			 inherited publicly:           inherited privately:           protectedly:
+		
+			Public					Public							Private						Protected
+			Protected				Protected						Private						Protected
+			Private					Inaccessible					Inaccessible				Inaccessible
+
+	. Changing an inherited member’s access level:
+	  C++ gives us the ability to change an inherited member’s access specifier in the derived class. This is done by using a using declaration to
+	  identify the (scoped) base class member that is having its access changed in the derived class, under the new access specifier.
+	  eg:
+		class Base
+		{
+			private:
+		    	int m_value;	 
+			public:
+		    	Base(int value)
+		        : m_value(value) {}
+		protected:
+		    void printValue() { std::cout << m_value; }
+		};
+
+		class Derived: public Base
+		{
+		public:
+		    Derived(int value)
+		        : Base(value)
+		    {
+		    }
+		 
+		    // Base::printValue was inherited as protected, so the public has no access
+		    // But we're changing it to public via a using declaration
+		    using Base::printValue; // note: no parenthesis here
+		};
+	. Hiding functionality:
+		In C++, it is not possible to remove or restrict functionality from a base class other than by modifying the source code. However, in a 
+		derived class, it is possible to hide functionality that exists in the base class, so that it can not be accessed through the derived class.
+		This can be done simply by changing the relevant access specifier.
+
+	. Multiple inheritance:
+		. Multiple inheritance enables a derived class to inherit members from more than one parent.
+		. While multiple inheritance seems like a simple extension of single inheritance, multiple inheritance introduces a lot of issues that can
+		  markedly increase the complexity of programs and make them a maintenance nightmare. Let’s take a look at some of these situations.
+		. First, ambiguity can result when multiple base classes contain a function with the same name.
+		. Second, and more serious is the diamond problem. This occurs when a class multiply inherits from two classes which each inherit from a 
+		  single base class. This leads to a diamond shaped inheritance pattern.
+		  eg:
+		  	class PoweredDevice {};
+			
+			class Scanner: public PoweredDevice {};
+			
+			class Printer: public PoweredDevice {};
+			
+			class Copier: public Scanner, public Printer {};
+		. Scanners and printers are both powered devices, so they derived from PoweredDevice. However, a copy machine incorporates the functionality
+		  of both Scanners and Printers.
+		
+Virtual functions and polymorphism:
+	. A virtual function is a special type of function that, when called, resolves to the most-derived version of the function that exists between the
+	  base and derived class. This capability is known as polymorphism. A derived function is considered a match if it has the same signature 
+	  (name, parameter types, and whether it is const) and return type as the base version of the function. Such functions are called overrides.
+
+	. You should not call virtual functions from constructors or destructors. Why?
+	  Remember that when a Derived class is created, the Base portion is constructed first. If you were to call a virtual function from the Base 
+	  constructor, and Derived portion of the class hadn’t even been created yet, it would be unable to call the Derived version of the function 
+	  because there’s no Derived object for the Derived function to work on. In C++, it will call the Base version instead.
+
+	. A similar issue exists for destructors. If you call a virtual function in a Base class destructor, it will always resolve to the Base class 
+	  version of the function, because the Derived portion of the class will already have been destroyed.
+
+	. Rule: Never call virtual functions from constructors or destructors
+
+	Override:
+		To help address the issue of functions that are meant to be overrides but aren’t, C++11 introduced the override specifier. The override 
+		specifier can be applied to any override function by placing the specifier in the same place const would go. If the function does not override
+		a base class function (or is applied to a non-virtual function), the compiler will flag the function as an error.
+		eg:
+			virtual const char* getName1(short int x) override { return "B"; }
+
+	The final specifier:
+		There may be cases where you don’t want someone to be able to override a virtual function, or inherit from a class. The final specifier can be
+		used to tell the compiler to enforce this. If the user tries to override a function or inherit from a class that has been specified as final, 
+		the compiler will give a compile error.
+		eg:
+			virtual const char* getName() override final { return "B"; }
+
+	Covariant return types:
+		There is one special case in which a derived class virtual function override can have a different return type than the base class and still be
+		considered a matching override. If the return type of a virtual function is a pointer or a reference to a class, override functions can return
+		a pointer or a reference to a derived class. These are called covariant return types.
+
+	Virtual Destructor:
+		. when pointer to a base is deleted, the program looks to see if the Base destructor is virtual. It’s not, so it assumes it only needs to call the
+		  Base destructor.
+		. Whenever you are dealing with inheritance, you should make any explicit destructors virtual.
+		. If you intend your class to be inherited from, make sure your destructor is virtual.
+		. If you do not intend your class to be inherited from, mark your class as final. This will prevent other classes from inheriting from it in 
+		  the first place, without imposing any other use restrictions on the class itself.
+
+	Binding:
+		Binding refers to the process that is used to convert identifiers (such as variable and function names) into addresses. Although binding is 
+		used for both variables and functions.
+
+	Early binding/Compile time Binding:
+		Most of the function calls the compiler encounters will be direct function calls. A direct function call is a statement that directly calls a 
+		function. Early binding (also called static binding) means the compiler (or linker) is able to directly associate the identifier name 
+		(such as a function or variable name) with a machine address. Remember that all functions have a unique address. So when the compiler (or 
+		linker) encounters a function call, it replaces the function call with a machine language instruction that tells the CPU to jump to the address
+		of the function.
+
+	Late binding:
+		In some programs, it is not possible to know which function will be called until runtime (when the program is run). This is known as late 
+		binding (or dynamic binding). In C++, one way to get late binding is to use function pointers.
+		eg:	int op = 1;
+			int (*pFcn)(int, int) = nullptr;
+			switch (op) {
+				case 0: pFcn = add; break;
+				case 1: pFcn = subtract; break;
+				case 2: pFcn = multiply; break;
+			}
+			pFcn(x, y);
+	Virtual Table:
+		. To implement virtual functions, C++ uses a special form of late binding known as the virtual table. The virtual table is a lookup table of 
+		functions used to resolve function calls in a dynamic/late binding manner. The virtual table sometimes goes by other names, such as “vtable”, 
+		“virtual function table”, “virtual method table”, or “dispatch table”.
+
+		. The virtual table is actually quite simple, though it’s a little complex to describe in words. First, every class that uses virtual functions
+		(or is derived from a class that uses virtual functions) is given its own virtual table. This table is simply a static array that the compiler
+		sets up at compile time. A virtual table contains one entry for each virtual function that can be called by objects of the class. Each entry 
+		in this table is simply a function pointer that points to the most-derived function accessible by that class.
+
+		. Second, the compiler also adds a hidden pointer to the base class, which we will call *__vptr. *__vptr is set (automatically) when a class 
+		instance is created so that it points to the virtual table for that class. Unlike the *this pointer, which is actually a function parameter 
+		used by the compiler to resolve self-references, *__vptr is a real pointer. Consequently, it makes each class object allocated bigger by the 
+		size of one pointer. It also means that *__vptr is inherited by derived classes, which is important.
+
+	Pure virtual Function:
+		. C++ allows you to create a special kind of virtual function called a pure virtual function (or abstract function) that has no body at all! 
+		A pure virtual function simply acts as a placeholder that is meant to be redefined by derived classes.
+		eg:
+			class Base {
+			public:
+				const char* sayHi() const { return "Hi"; } // a normal non-virtual function    
+				virtual const char* getName() const { return "Base"; } // a normal virtual function
+				virtual int getValue() const = 0; // a pure virtual function
+				int doSomething() = 0; // Compile error: can not set non-virtual functions to 0
+			};
+		. Using a pure virtual function has two main consequences: First, any class with one or more pure virtual functions becomes an abstract base
+		  class, which means that it can not be instantiated!
+		. Second, any derived class must define a body for this function, or that derived class will be considered an abstract base class as well.
+		. A pure virtual function is useful when we have a function that we want to put in the base class, but only the derived classes know what it
+		  should return. A pure virtual function makes it so the base class can not be instantiated, and the derived classes are forced to define these
+		  functions before they can be instantiated. This helps ensure the derived classes do not forget to redefine functions that the base class was
+		  expecting them to.
+		
+		. Pure virtual functions with bodies:
+		It turns out that we can define pure virtual functions that have bodies:
+		eg:
+			class Animal // This Animal is an abstract base class
+			{
+				virtual const char* speak() const = 0; // The = 0 means this function is pure virtual
+			};
+	
+			const char* Animal::speak() const  // even though it has a body
+			{
+				return "buzz";
+			}
+		. In this case, speak() is still considered a pure virtual function because of the “=0” (even though it has been given a body) and Animal is
+		  still considered an abstract base class (and thus can’t be instantiated). Any class that inherits from Animal needs to provide its own 
+		  definition for speak() or it will also be considered an abstract base class.
+		. When providing a body for a pure virtual function, the body must be provided separately (not inline).
+		
+		. This paradigm can be useful when you want your base class to provide a default implementation for a function, but still force any derived
+		  classes to provide their own implementation. However, if the derived class is happy with the default implementation provided by the base 
+		  class, it can simply call the base class implementation directly.
+		  eg:
+			class Dragonfly: public Animal {
+			public:
+				const char* speak() const override// this class is no longer abstract because we defined this function
+				{
+					return Animal::speak(); // use Animal's default implementation
+				}
+			};
+
+	Interface classes:
+		. An interface class is a class that has no member variables, and where all of the functions are pure virtual! In other words, the class
+		  is purely a definition, and has no actual implementation. Interfaces are useful when you want to define the functionality that derived
+		  classes must implement, but leave the details of how the derived class implements that functionality entirely up to the derived class.
+		. Interface classes have become extremely popular because they are easy to use, easy to extend, and easy to maintain.
+		. Abstract classes still have virtual tables, as these can still be used if you have a pointer or reference to the abstract class. The
+		  virtual table entry for a pure virtual function will generally either contain a null pointer, or point to a generic function that prints
+		  an error (sometimes this function is named __purecall) if no override is provided.
+
+	Diamond problem:
+		This occurs when a class multiply inherits from two classes which each inherit from a single base class. This leads to a diamond shaped 
+		inheritance pattern.
+		eg:
+			class PoweredDevice {};
+			
+			class Scanner: public PoweredDevice {};
+			
+			class Printer: public PoweredDevice {};
+			
+			class Copier: public Scanner, public Printer {};
+
+		There are many issues that arise in this context, including whether Copier should have one or two copies of PoweredDevice, and how to resolve
+		certain types of ambiguous references.
+
+	Virtual base classes (Solution to Diamond problem):
+		To share a base class, simply insert the “virtual” keyword in the inheritance list of the derived class. This creates what is called a
+		virtual base class, which means there is only one base object. The base object is shared between all objects in the inheritance tree and
+		it is only constructed once.
+		eg:
+			class PoweredDevice {};
+			
+			class Scanner: virtual public PoweredDevice {};
+			
+			class Printer: virtual public PoweredDevice {};
+			
+			class Copier: public Scanner, public Printer {};
+
+		Now, when you create a Copier class object, you will get only one copy of PoweredDevice per Copier that will be shared by both Scanner and
+		Printer.
+		
+	Object Slicing:
+		When we assign a Derived object to a Base object, only the Base portion of the Derived object is copied. The Derived portion is not. In the 
+		example below, base receives a copy of the Base portion of derived, but not the Derived portion. That Derived portion has effectively been 
+		“sliced off”. Consequently, the assigning of a Derived class object to a Base class object is called object slicing (or slicing for short).
+		eg: 
+			Derived derived{ 5 };
+			Base base{ derived }; 
+		. slicing here can all be easily avoided by making the function parameter a reference instead of a pass by value (yet another reason why 
+		  passing classes by reference instead of value is a good idea).
+
+	Frankenobject:
+		-- composed of parts of multiple objects.
+
+	Upcasting:
+		converting a Derived pointer into a Base pointer.
+
+	Downcasting:
+		converting base-class pointers into derived-class pointers.
+
+	Dynamic_cast:
+		. The need for dynamic_cast:
+			When dealing with polymorphism, you’ll often encounter cases where you have a pointer to a base class, but you want to access some 
+			information that exists only in a derived class.
+		  eg:
+		  	class Base {};
+ 
+			class Derived : public Base {
+				public:
+					const std::string& getName() const { return m_name; }
+			};
+ 
+			Base* getObject(bool bReturnDerived) {
+				if (bReturnDerived)
+					return new Derived{1, "Apple"};
+				else
+					return new Base{2};
+			}
+ 
+			int main() {
+				Base *b{ getObject(true) };
+				// how do we print the Derived object's name here, having only a Base pointer?
+				delete b;
+				return 0;
+			}
+		. C++ provides a casting operator named dynamic_cast that can be used for just this purpose. Dynamic casting is used for converting base-class 
+		  pointers into derived-class pointers. This process is called downcasting. Always ensure your dynamic casts actually succeeded by checking
+		  for a null pointer result.
+		  eg: Solution to above problem
+		  	Base *b{ getObject(true) };
+        	Derived *d{ dynamic_cast<Derived*>(b) }; // use dynamic cast to convert Base pointer into Derived pointer
+        	std::cout << "The name of the Derived is: " << d->getName() << '\n';
+
+			Also note that there are several cases where downcasting using dynamic_cast will not work:
+			1) With protected or private inheritance.
+			2) For classes that do not declare or inherit any virtual functions (and thus don’t have a virtual table).
+			3) In certain cases involving virtual base classes
+		
+		. Downcasting with static_cast:
+			It turns out that downcasting can also be done with static_cast. The main difference is that static_cast does no runtime type checking to
+			ensure that what you’re doing makes sense. This makes using static_cast faster, but more dangerous. If you cast a Base* to a Derived*,
+			it will “succeed” even if the Base pointer isn’t pointing to a Derived object. This will result in undefined behavior when you try to 
+			access the resulting Derived pointer (that is actually pointing to a Base object). If you’re absolutely sure that the pointer you’re 
+			downcasting will succeed, then using static_cast is acceptable.
+			eg:
+				Derived *d{ static_cast<Derived*>(b) };
+		
+		. Dynamic_cast and references:
+			Although all of the above examples show dynamic casting of pointers (which is more common), dynamic_cast can also be used with references.
+			This works analogously to how dynamic_cast works with pointers.
+			eg:
+				Derived apple{1, "Apple"}; // create an apple
+				Base &b{ apple }; // set base reference to object
+				Derived &d{ dynamic_cast<Derived&>(b) }; // dynamic cast using a reference instead of a pointer
+				std::cout << "The name of the Derived is: " << d.getName() << '\n'; // we can access Derived::getName through d
+			. If a dynamic_cast fails, the result of the conversion will be a null pointer.
+			
+		. Downcasting vs virtual functions:
+			There are some developers who believe dynamic_cast is evil and indicative of a bad class design. Instead, these programmers say you should
+			use virtual functions. In general, using a virtual function should be preferred over downcasting. However, there are times when downcasting
+			is the better choice:
+
+			. When you can not modify the base class to add a virtual function (e.g. because the base class is part of the standard library)
+			. When you need access to something that is derived-class specific (e.g. an access function that only exists in the derived class)
+			. When adding a virtual function to your base class doesn’t make sense (e.g. there is no appropriate value for the base class to return).
+			  Using a pure virtual function may be an option here if you don’t need to instantiate the base class.
+
+		. use static_cast unless you’re downcasting, in which case dynamic_cast is usually a better choice.

@@ -1,0 +1,17 @@
+. cd commanf is used to Change the shell working directory. Navigating from one directory to another is 
+  done with the command cd taken over the directory name. Change the current directory. 
+  With no arguments “cd” changes to the users home directory.
+
+
+==> Navigating to root directory
+    cd /
+
+==> Navigating to home directory
+    cd ~  or cd
+
+==> Navigating to parent of current directory
+    cd ..
+
+==> Navingating to directory which has space in the name
+    cd My\ Books or cd "My Books" or cd 'My Books'
+

@@ -1,0 +1,27 @@
+
+Type Conversion:
+	The process of converting a value from one data type to another is called a type conversion. Type conversions can happen in many different cases:
+
+	. When assigning to or initializing a variable with a value of a different data type:
+	  eg: double d{ 3 }; // initialize double variable with integer value 3
+		  d = 6; // assign double variable the integer value 6
+
+	. When passing a value to a function where the function parameter is of a different data type:
+	  eg: void doSomething(long l) {}
+		  doSomething(3); // pass integer value 3 to a function expecting a long parameter
+
+	. When returning a value from a function where the function return type is of a different data type:
+	  eg: float doSomething()
+		  {
+    		return 3.0; // Return double value 3.0 back to caller through float return type
+		  }
+
+	. Using a binary operator with operands of different types:
+	  eg: double division{ 4.0 / 3 }; // division with a double and an integer
+
+
+Implicit type conversion:
+
+	Implicit type conversion (also called automatic type conversion or coercion) is performed whenever one data type is expected, but a different data type is supplied. If the compiler can figure out how to do the conversion between the two types, it will. If it doesn’t know how, then it will fail with a compile error.
+
+	There are two basic types of implicit type conversion: promotions and conversions.

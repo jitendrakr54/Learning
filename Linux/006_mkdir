@@ -1,0 +1,12 @@
+
+==> create directory
+    mkdir image
+
+==> create subdirectory where directory already existing
+    mkdir image/pics
+
+==> create subdirectory where main directory doesn't exist
+    mkdir -p names/mark or mkdir --parents names/mark 
+
+==> create multiple subdirectory
+    mkdir -p names/{john,tom,bob} Note:  give no space after comma

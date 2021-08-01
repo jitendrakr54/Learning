@@ -1,0 +1,8 @@
+1. gcc -fPIC -c add.cpp
+2. gcc -fPIC -c sub.cpp
+3. gcc -shared -o libbasic.so add.o sub.o
+4. g++ -c demo.cpp
+5. g++ -o demo demo.o libbasic.so
+6. sudo mv libbasic.so /usr/lib/
+7. sudo ldconfig
+8. ./demo

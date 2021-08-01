@@ -1,0 +1,100 @@
+Email message has mainly 6 parts:
+    1. Pleasantry
+    2. Introduction
+    3. Purpose
+    4. details
+    5. Call-to-action
+    6. Pleasantry
+
+1. Pleasantry: To offer a pleasant feeling to the recipient.
+    How are you? I hope you are well.
+    I hope you are doing well.
+    I hope you are having a good week.
+    I hope you had a good weekend.
+    I hope your weekend was great.
+    
+    If contacting after long time:
+        Sorry, It's been a while. I hope you are doing well.
+
+    If according to recipient's:
+        If recipient got a new job:
+            I hope you are enjoying your new workplace.
+            I hope you have settled in your new job.
+            Congrats on your promotion.
+
+        If someone recovered from health problem:
+            I hope your health is better now.
+            I hope your leg(problem) is fine now.
+            I hope you have fully recovered from your injury.
+            I hope you are back in action after your surgery.
+        
+        If someone got personal acheivement:
+            Congratulations on your marriage.
+            Congrats on the baby boy/baby girl.
+            Congrats on your new Car.
+            I Hope you had a great hoiday in Paris.
+            I hope you enjoyed your holiday in Goa.
+            I hope your holiday was refreshing.
+            Congratulations on your daughter's marriage.
+
+        If you met someone recently:
+            It was geat meeting at the party last week.
+            It was great meeting you last week.
+            It was really nice to chat with you this morning.
+            It was a pleasure talikng to you at the Annual Conference.
+        
+            Thanks for your time yesterday.
+            Thanks for taking out time to visit me yesterday.
+            Thanks for coming over for the lunch yesterday.
+
+        If someone replied to your email, then you can reply next:
+            It's good to hear back from you.
+            Thank you for the prompt response.
+            Thank you for the quick revert.
+            I appreciate your quick reply.
+            Thank you for getting back to me promptly.
+
+        If you get late for reply:
+            Sorry for the late reply.
+            I apologize for the late response.
+            Sorry for taking long to revert.
+
+        If you old customer/collegue connect to you after long time:
+            Glad to hear from you again.
+            I am happy that we have reconnected after so long.
+            I am glad that we are in touch again.
+
+        If someone emails you just for information:
+            Thank you for the information.
+            Thank you for letting me know.
+            Thank you for keeping me posted.
+
+        If someone gives status about your work.
+            Thank you for informing me.
+            Thank you for sharing.
+        
+        If someone informs you about something(holiday/leaves) in advance:
+            Thank you for the heads up.
+
+        If no Pleasantry matches while replying:
+            Thank you for reaching out to me.
+            Thank you for writing.
+            Thank you for your email.
+            Thank you for contacting me.
+
+Note: If you are interacting with someone frequently in a day, then no need to write Pleasantry everyone time
+
+
+Introduction:
+    It will come only when someone doesn't now you or you are interacting with someone for the first time.
+    If you are contacting someone whom you are familiar with then this can be skipped.
+
+    I am Ajay Kumar, head of marketing at ABC Graphics Pvt. Ltd. We are in top 10 advertising agencies
+    of India and well-known for our successful projects with pepsi, Nike, Airtel and many more.
+
+    I am Varun Desai, business Development executive at Lopa technologies. Our company ia a startup founded
+    by IIT, IIM graduates, and a winner of India's most ineresting start-up award.
+
+    I am Rajive Pathak, co-founder of an ecommerce company 'Kharido.com'.
+    We deliver groceries over 1 million households across 50 cities and town in India.
+

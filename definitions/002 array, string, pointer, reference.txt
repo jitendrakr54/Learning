@@ -1,0 +1,392 @@
+C-style strings:
+    . A C-style string is simply an array of characters that uses a null terminator. A null terminator is a special character (‘\0’, ascii code 0) 
+      used to indicate the end of the string. More generically, A C-style string is called a null-terminated string.
+    . To define a C-style string, simply declare a char array and initialize it with a string literal:
+        char myString[]{ "string" };
+    . Although “string” only has 6 letters, C++ automatically adds a null terminator to the end of the string for us (we don’t need to include it 
+      ourselves). Consequently, myString is actually an array of length 7!
+
+    . One important point to note is that C-style strings follow all the same rules as arrays. This means you can initialize the string upon creation, 
+      but you can not assign values to it using the assignment operator after that!
+      eg: char myString[]{ "string" }; // ok
+          myString = "rope"; // not ok!
+
+std::string_view:
+    char text[]{ "hello" };
+    std::string str{ text };
+    std::string more{ str };
+
+    . Internally, main copies the string “hello” 3 times, resulting in 4 copies. First, there is the string literal “hello”, which is known at 
+      compile-time and stored in the binary. One copy is created when we create the char[]. The following two std::string objects create one copy of 
+      the string each. Because std::string is designed to be modifiable, each std::string must contain its own copy of the string, 
+      so that a given std::string can be modified without affecting any other std::string object.
+      This holds true for const std::string, even though they can’t be modified.
+
+    . Unlike std::string, which keeps its own copy of the string, std::string_view provides a view of a string that is defined elsewhere.
+        std::string_view text{ "hello" }; // view the text "hello", which is stored in the binary
+        std::string_view str{ text }; // view of the same "hello"
+        std::string_view more{ str }; // view of the same "hello"
+
+    . Because std::string_view doesn’t create a copy of the string, if we change the viewed string, the changes are reflected in the std::string_view.
+        char arr[]{ "Gold" };
+        std::string_view str{ arr };
+        std::cout << str << '\n'; // Gold
+        // Change 'd' to 'f' in arr
+        arr[3] = 'f';
+        std::cout << str << '\n'; // Golf
+
+    . Use std::string_view instead of C-style strings.
+    . Prefer std::string_view over std::string for read-only strings, unless you already have a std::string.
+    . Ownership issues:
+      . Being only a view, a std::string_view‘s lifetime is independent of that of the string it is viewing. If the viewed string goes out of scope,
+        std::string_view has nothing to observe and accessing it causes undefined behavior.
+        eg: std::string_view askForName() {
+            std::string str{"hello"};
+            std::string_view view{str};
+            return view;
+        }
+        int main() { std::string_view view{askForName()}; std::cout<<view; //print garbage}
+      . Make sure that the underlying string viewed with a std::string_view does not go out of scope and isn’t modified while using the std::string_view.
+
+      . C-style string symbolic constants:
+        eg: int main()                                            int main()
+            {                                                     { 
+              char myName[]{ "Alex" }; // fixed array               const char* myName{ "Alex" }; // pointer to symbolic constant
+              std::cout << myName << '\n';                          std::cout << myName << '\n';           
+              return 0;                                             return 0;
+            }                                                     }
+      . While these above two programs operate and produce the same results, C++ deals with the memory allocation for these slightly differently.
+      . In the fixed array case, the program allocates memory for a fixed array of length 5, and initializes that memory with the string “Alex\0”. 
+        Because memory has been specifically allocated for the array, you’re free to alter the contents of the array. The array itself is treated as
+        a normal local variable, so when the array goes out of scope, the memory used by the array is freed up for other uses.
+      . In the symbolic constant case, how the compiler handles this is implementation defined. What usually happens is that the compiler places the
+        string “Alex\0” into read-only memory somewhere, and then sets the pointer to point to it. Because this memory may be read-only, best practice
+        is to make sure the string is const.
+      . For optimization purposes, multiple string literals may be consolidated into a single value.
+        eg: const char* name1{ "Alex" };
+            const char* name2{ "Alex" };
+      . These are two different string literals with the same value. The compiler may opt to combine these into a single shared string literal, with
+        both name1 and name2 pointed at the same address. Thus, if name1 was not const, making a change to name1 could also impact name2 (which might
+        not be expected).
+      . As a result of string literals being stored in a fixed location in memory, string literals have static duration rather than automatic duration
+        (that is, they die at the end of the program, not the end of the block in which they are defined). That means that when we use string literals,
+        we don’t have to worry about scoping issues. Thus, the following is okay:
+        eg:  const char* getName() {
+                return "Alex";
+              }
+
+Pointers:
+    . It turns out that pointers are useful in many different cases:
+
+      1) Arrays are implemented using pointers. Pointers can be used to iterate through an array (as an alternative to array indices) (covered in 
+          lesson 9.24 -- Introduction to iterators).
+      2) They are the only way you can dynamically allocate memory in C++ (covered in lesson 9.13 -- Dynamic memory allocation with new and delete).
+         This is by far the most common use case for pointers.
+      3) They can be used to pass a function as a parameter to another function (covered in lesson 10.9 -- Function Pointers).
+      4) They can be used to achieve polymorphism when dealing with inheritance (covered in lesson 18.1 -- Pointers and references to the base class
+         of derived objects).
+      5) They can be used to have one struct/class point at another struct/class, to form a chain. This is useful in some more advanced data structures,
+         such as linked lists and trees.
+
+    Null values and null pointers:
+      . Just like normal variables, pointers are not initialized when they are instantiated. Unless a value is assigned, a pointer will point to some
+        garbage address by default.
+      . Besides memory addresses, there is one additional value that a pointer can hold: a null value. A null value is a special value that means the
+        pointer is not pointing at anything. A pointer holding a null value is called a null pointer.
+      . In C++, we can assign a pointer a null value by initializing or assigning it the literal 0:
+        eg: float* ptr { 0 };  // ptr is now a null pointer
+      
+      . The NULL macro:
+        . In C++, there is a special preprocessor macro called NULL (defined in the <cstddef> header). This macro was inherited from C, where it is
+          commonly used to indicate a null pointer.
+          eg:
+            #include <cstddef> // for NULL
+            double* ptr { NULL }; // ptr is a null pointer
+        . Because NULL is a preprocessor macro with an implementation defined value, avoid using NULL.
+      . nullptr in C++11:
+        . C++11 introduces a new keyword called nullptr. nullptr is a keyword, much like the boolean keywords true and false are.
+        . Starting with C++11, this should be favored instead of 0 when we want a null pointer:
+          eg: int* ptr { nullptr }; // note: ptr is still an integer pointer, just set to a null value
+        . C++ will implicitly convert nullptr to any pointer type. So in the above example, nullptr is implicitly converted to an integer pointer, 
+          and then the value of nullptr assigned to ptr. This has the effect of making integer pointer ptr a null pointer.
+
+    Pointers and arrays:
+      . The fixed array will decay (be implicitly converted) into a pointer that points to the first element of the array.
+        eg: int array[5]{ 9, 7, 5, 3, 1 };
+            std::cout << "Element 0 has address: " << &array[0] << '\n'; // print address of the array's first element
+            std::cout << "The array decays to a pointer holding address: " << array << '\n'; // print the value of the pointer the array decays to
+      
+      . arrays that are part of structs or classes do not decay when the whole struct or class is passed to a function. This yields a useful way to
+        prevent decay if desired, and will be valuable later when we write classes that utilize arrays.
+
+Dynamic memory allocation with new and delete:
+    C++ supports three basic types of memory allocation:
+    . "Static memory allocation": happens for static and global variables. Memory for these types of variables is allocated once when your program is 
+      run and persists throughout the life of your program.
+    . "Automatic memory allocation": happens for function parameters and local variables. Memory for these types of variables is allocated when the 
+      relevant block is entered, and freed when the block is exited, as many times as necessary.
+    . Both static and automatic allocation have two things in common:
+      The size of the variable / array must be known at compile time.
+      Memory allocation and deallocation happens automatically (when the variable is instantiated / destroyed).
+
+    . "Dynamic memory allocation":  is a way for running programs to request memory from the operating system when needed. This memory does not come
+      from the program’s limited stack memory -- instead, it is allocated from a much larger pool of memory managed by the operating system called
+      the heap. On modern machines, the heap can be gigabytes in size.
+    . To allocate a single variable dynamically, we use the scalar (non-array) form of the new operator:
+      eg: new int; // dynamically allocate an integer (and discard the result)
+          int* ptr{ new int }; // dynamically allocate an integer and assign the address to ptr so we can access it later
+          *ptr = 7; // assign value of 7 to allocated memory
+    
+    . How does dynamic memory allocation work?
+      . Your computer has memory (probably lots of it) that is available for applications to use. When you run an application, your operating system
+        loads the application into some of that memory. This memory used by your application is divided into different areas, each of which serves a 
+        different purpose. One area contains your code. Another area is used for normal operations (keeping track of which functions were called, 
+        creating and destroying global and local variables, etc…). However, much of the memory available just sits there, waiting to be handed out to
+        programs that request it.
+      . When you dynamically allocate memory, you’re asking the operating system to reserve some of that memory for your program’s use. If it can 
+        fulfill this request, it will return the address of that memory to your application. From that point forward, your application can use this
+        memory as it wishes. When your application is done with the memory, it can return the memory back to the operating system to be given to 
+        another program.
+
+      . Unlike static or automatic memory, the program itself is responsible for requesting and disposing of dynamically allocated memory.
+
+      . Initializing a dynamically allocated variable:
+        When you dynamically allocate a variable, you can also initialize it via direct initialization or uniform initialization (in C++11):
+        eg:  int* ptr1{ new int (5) }; // use direct initialization
+            int* ptr2{ new int { 6 } }; // use uniform initialization
+            
+      . Deleting single variables:
+        When we are done with a dynamically allocated variable, we need to explicitly tell C++ to free the memory for reuse. For single variables, 
+        this is done via the scalar (non-array) form of the delete operator:
+        eg:
+          // assume ptr has previously been allocated with operator new
+          delete ptr; // return the memory pointed to by ptr to the operating system
+          ptr = 0; // set ptr to be a null pointer (use nullptr instead of 0 in C++11)
+
+      . Dangling pointers:
+        A pointer that is pointing to deallocated memory is called a dangling pointer. Indirection through- or deleting a dangling pointer will lead
+        to undefined behavior.
+        eg:
+            int main() {
+              int* ptr{ new int{} }; // dynamically allocate an integer
+              int* otherPtr{ ptr }; // otherPtr is now pointed at that same memory location    
+              delete ptr; // return the memory to the operating system.  ptr and otherPtr are now dangling pointers.
+              ptr = nullptr; // ptr is now a nullptr
+              // however, otherPtr is still a dangling pointer!
+              return 0;
+            }
+      . Memory leaks:
+        . Memory leaks happen when your program loses the address of some bit of dynamically allocated memory before giving it back to the operating
+          system. When this happens, your program can’t delete the dynamically allocated memory, because it no longer knows where it is. The operating
+          system also can’t use this memory, because that memory is considered to be still in use by your program.
+          eg:
+            void doSomething()                    int value = 5;
+            {                                     int* ptr{ new int{} }; // allocate memory
+                int* ptr{ new int{} };            ptr = &value; // old address lost, memory leak results
+            }
+        . this can be avoided by ensuring you delete the pointer before reassigning.
+
+      . Dynamically allocating arrays:
+        . To allocate an array dynamically, we use the array form of new and delete (often called new[] and delete[])
+          eg:
+            int main() {
+              std::cout << "Enter a positive integer: ";
+              std::size_t length{};
+              std::cin >> length;
+              int *array{ new int[length]{} }; // use array new.  Note that length does not need to be constant!
+              std::cout << "I just allocated an array of integers of length " << length << '\n';
+              array[0] = 5; // set element 0 to value 5
+              delete[] array; // use array delete to deallocate array
+              // we don't need to set array to nullptr/0 here because it's going to go out of scope immediately after this anyway
+              return 0;
+          }
+      . Dynamically deleting arrays:
+        . When deleting a dynamically allocated array, we have to use the array version of delete, which is delete[].
+        . Using the scalar version (delete) of delete on an array will result in undefined behavior, such as data corruption, memory leaks, crashes, or other
+          problems.
+      . Initializing dynamically allocated arrays:
+        eg:
+          int *array{ new int[length]{} };           // initialize a dynamically allocated array to 0
+
+          int *array = new int[5];
+          array[0] = 9;   array[1] = 7;    array[2] = 5;   array[3] = 3;    array[4] = 1;
+    
+          int fixedArray[5] = { 9, 7, 5, 3, 1 };      // initialize a fixed array before C++11
+          int *array{ new int[5]{ 9, 7, 5, 3, 1 } };  // initialize a dynamic array since C++11
+          
+          auto *array{ new int[5]{ 9, 7, 5, 3, 1 } };  // To prevent writing the type twice, we can use auto. This is often done for types with long names.
+          
+Pointers and const:
+    . Pointer to const value:
+      A pointer to a const value is a (non-const) pointer that points to a constant value.
+      eg:   const int value{ 5 };
+            const int* ptr{ &value }; // this is okay, ptr is a non-const pointer that is pointing to a "const int"
+            *ptr = 6; // not allowed, we can't change a const value
+    . A pointer to a constant variable can point to a non-constant variable. Think of it this way: a pointer to a constant variable treats the 
+      variable as constant when it is accessed through the pointer, regardless of whether the variable was initially defined as const or not.
+      eg:
+          int value{ 5 };
+          const int* ptr{ &value }; // ptr points to a "const int"
+          value = 6; // the value is non-const when accessed through a non-const identifier
+
+          But the following is not:
+
+          int value{ 5 };
+          const int* ptr{ &value }; // ptr points to a "const int"
+          *ptr = 6; // ptr treats its value as const, so changing the value through ptr is not legal
+
+    . Const pointers:   
+      We can also make a pointer itself constant. A const pointer is a pointer whose value can not be changed after initialization.
+      To declare a const pointer, use the const keyword between the asterisk and the pointer name:
+      eg:
+          int value{ 5 };
+          int* const ptr{ &value };
+
+    . Const pointer to a const value:
+      It is possible to declare a const pointer to a const value by using the const keyword both before the type and before the variable name:
+      eg: int value{ 5 };
+          const int* const ptr{ &value };
+
+    . Recapping:
+        To summarize, you only need to remember 4 rules, and they are pretty logical:
+          . A non-const pointer can be redirected to point to other addresses.
+          . A const pointer always points to the same address, and this address can not be changed.
+          . A pointer to a non-const value can change the value it is pointing to. These can not point to a const value.
+          . A pointer to a const value treats the value as const (even if it is not), and thus can not change the value it is pointing to.
+        eg:
+          int value{ 5 };
+          const int* ptr1{ &value }; // ptr1 points to a "const int", so this is a pointer to a const value.
+          int* const ptr2{ &value }; // ptr2 points to an "int", so this is a const pointer to a non-const value.
+          const int* const ptr3{ &value }; // ptr3 points to a "const int", so this is a const pointer to a const value.
+      . Pointers to const values are primarily used in function parameters (for example, when passing an array to a function) to help ensure the 
+        function doesn’t inadvertently change the passed in argument.
+
+Reference variables:
+    . Normal variables, which hold values directly.
+    . Pointers, which hold the address of another value (or null) and their value can be retrieved through indirection of address they point to.
+    . References are the third basic type of variable that C++ supports. A reference is a type of C++ variable that acts as an alias to another 
+      object or value.
+
+    . C++ supports three kinds of references:
+      . References to non-const values (typically just called “references”, or “non-const references”)
+      . References to const values (often called “const references”)
+      . C++11 added r-value references
+
+    . References to non-const values:
+      A reference (to a non-const value) is declared by using an ampersand (&) between the reference type and the variable name:
+      eg: int value{ 5 }; // normal integer
+          int &ref{ value }; // reference to variable value
+
+    . References must be initialized:
+      References must be initialized when created:
+      eg:   int value{ 5 };
+            int& ref{ value }; // valid reference, initialized to variable value
+            int& invalidRef; // invalid, needs to reference something
+      Unlike pointers, which can hold a null value, there is no such thing as a null reference.
+    
+    . References to non-const values can only be initialized with non-const l-values. They can not be initialized with const l-values or r-values.
+      eg:
+          int x{ 5 };
+          int& ref1{ x }; // okay, x is an non-const l-value
+          const int y{ 7 };
+          int& ref2{ y }; // not okay, y is a const l-value
+          int& ref3{ 6 }; // not okay, 6 is an r-value
+      Note that in the middle case, you can’t initialize a non-const reference with a const object -- otherwise you’d be able to change the value of
+      the const object through the reference, which would violate the const-ness of the object.
+    . References can not be reassigned:
+      Once initialized, a reference can not be changed to reference another variable. Consider the following snippet:
+      eg:
+          int value1{ 5 };
+          int value2{ 6 };
+          
+          int& ref{ value1 }; // okay, ref is now an alias for value1
+          ref = value2; // assigns 6 (the value of value2) to value1 -- does NOT change the reference!
+
+    . References as function parameters:
+      References are most often used as function parameters. In this context, the reference parameter acts as an alias for the argument, and no copy
+      of the argument is made into the parameter. This can lead to better performance if the argument is large or expensive to copy.
+    . the reference parameter acts as an alias for the argument, a function that uses a reference parameter is able to modify the argument passed in:
+    . Pass arguments by non-const reference (rather than by pointer) when the argument needs to be modified by the function.
+
+    . References vs pointers:
+      References and pointers have an interesting relationship -- a reference acts like a pointer that implicitly performs indirection through it 
+      when accessed (references are usually implemented internally by the compiler using pointers).
+
+    . Reference to const value:
+      . Just like it’s possible to declare a pointer to a const value, it’s also possible to declare a reference to a const value. This is done by 
+        declaring a reference using the const keyword.
+        eg:
+          const int value{ 5 };
+          const int &ref{ value }; // ref is a reference to const value
+
+      . Unlike references to non-const values, which can only be initialized with non-const l-values, references to const values can be initialized
+        with non-const l-values, const l-values, and r-values.
+        eg:
+          int x{ 5 };
+          const int& ref1{ x }; // okay, x is a non-const l-value
+          
+          const int y{ 7 };
+          const int& ref2{ y }; // okay, y is a const l-value
+          
+          const int& ref3{ 6 }; // okay, 6 is an r-value
+
+      . Pass non-pointer, non-fundamental data type variables (such as structs) by (const) reference, unless you know that passing it by value is faster.
+
+  . For-each loop:
+      . For-each loops provide a superior syntax for iterating through an array when we need to access all of the array elements in forwards sequential
+        order. It should be preferred over the standard for loop in the cases where it can be used. To prevent making copies of each element, the 
+        element declaration should ideally be a reference.
+        Syntax:
+              for (element_declaration : array)
+                  statement;
+
+  . Void pointers:
+    . The void pointer, also known as the generic pointer, is a special type of pointer that can be pointed at objects of any data type! A void
+      pointer is declared like a normal pointer, using the void keyword as the pointer’s type:
+      eg: void *ptr; // ptr is a void pointer
+    . A void pointer can point to objects of any data type:
+      eg:  int nValue;
+          float fValue;
+          
+          struct Something {
+              int n;
+              float f;
+          };
+          Something sValue;
+          
+          void *ptr;
+          ptr = &nValue; // valid
+          ptr = &fValue; // valid
+          ptr = &sValue; // valid
+    . However, because the void pointer does not know what type of object it is pointing to, direct indirection through it is not possible! Rather, 
+      the void pointer must first be explicitly cast to another pointer type before indirecting through the new pointer.
+      eg:
+        int value{ 5 };
+        void *voidPtr{ &value };
+        // std::cout << *voidPtr << '\n'; // illegal: Indirection through a void pointer
+        int *intPtr{ static_cast<int*>(voidPtr) }; // however, if we cast our void pointer to an int pointer...
+        std::cout << *intPtr << '\n'; // then we can use indirection through it like normal
+     . It is not possible to do pointer arithmetic on a void pointer. This is because pointer arithmetic requires the pointer to know what size 
+       object it is pointing to, so it can increment or decrement the pointer appropriately.
+
+      . A void pointer is a pointer that can point to any type of object, but does not know what type of object it points to. A void pointer must be
+        explicitly cast into another type of pointer to perform indirection. A null pointer is a pointer that does not point to an address. 
+        A void pointer can be a null pointer.
+        eg: void* ptr{nullptr};
+
+Pointers to pointers:
+    . A pointer to a pointer is a pointer that holds the address of another pointer.
+    eg: int *ptr; // pointer to an int, one asterisk
+        int **ptrptr; // pointer to a pointer to an int, two asterisks
+
+        int value = 5;
+        int *ptr = &value;
+        std::cout << *ptr; // Indirection through pointer to int to get int value
+        
+        int **ptrptr = &ptr;
+        std::cout << **ptrptr; // first indirection to get pointer to int, second indirection to get int value
+
+        
+
+
+  

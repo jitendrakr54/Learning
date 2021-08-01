@@ -1,0 +1,30 @@
+less = shows the content of a file
+
+. Less command can be used as Pagers to display contents of large files page by page or scroll line by 
+  line up and down.
+. Less have a lot of viewing options and search capability.
+. Interactive. To exit: ‘q’
+. less (“less is more”) a bit more smart than the more command
+
+. to display contents of a file:
+    less filename
+
+. To display line numbers:
+    less -N filename
+ 
+. To display a prompt:
+    less -P"Press 'q' to quit" filename
+ 
+. Combine the two:
+    less -NP"Blah-blah-blah" filename
+ 
+. For more information:
+    man less
+
+. To search any word from top to bottom type / and enter, 1st word will appear. If we want to search 
+  that word further in that file, type n
+  For down to up use ?
+
+
+
+

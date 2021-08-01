@@ -1,0 +1,1 @@
+close(fd[0]);   // close read end

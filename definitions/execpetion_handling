@@ -1,0 +1,116 @@
+Exception Handling:
+	Exception handling provides a mechanism to decouple handling of errors or other exceptional circumstances from the typical control flow of your code. 
+	This allows more freedom to handle errors when and how ever is most useful for a given situation, alleviating many (if not all) of the messiness that return codes cause.
+
+	Exceptions in C++ are implemented using three keywords that work in conjunction with each other: throw, try, and catch.
+
+	In C++, a throw statement is used to signal that an exception or error case has occurred (think of throwing a penalty flag). Signaling that an exception has occurred is also 
+	commonly called raising an exception.
+
+	In C++, we use the try keyword to define a block of statements (called a try block). The try block acts as an observer, looking for any exceptions that are thrown by any of the
+	statements within the try block.
+
+
+	When an exception is raised (using throw), execution of the program immediately jumps to the nearest enclosing try block (propagating up the stack if necessary to find an 
+	enclosing try block). If any of the catch handlers attached to the try block handle that type of exception, that handler is executed and the exception is considered handled.
+
+	If no appropriate catch handlers exist, execution of the program propagates to the next enclosing try block. If no appropriate catch handlers can be found before the end of the 
+	program, the program will fail with an exception error.
+
+	Note that the compiler will not perform implicit conversions or promotions when matching exceptions with catch blocks! For example, a char exception will not match with an int 
+	catch block. An int exception will not match a float catch block. However, casts from a derived class to one of its parent classes will be performed.
+
+	Stack unwinding:
+	The process of removing function entries from function call stack at run time is called Stack Unwinding.
+
+	First, the program looks to see if the exception can be handled immediately (which means it was thrown inside a try block). If not, the current function is terminated, and the program checks to see if the function’s caller will handle the exception. If not, it terminates the caller and checks the caller’s caller. Each function is terminated in sequence until a handler for the exception is found, or until main() is terminated without the exception being handled. This process is called unwinding the stack.
+
+	Catch-all handler:
+	C++ provides us with a mechanism to catch all types of exceptions. This is known as a catch-all handler. A catch-all handler works just like a normal catch block, except that instead of using a specific type to catch, it uses the ellipses operator (…) as the type to catch.
+
+	Exception specifiers:
+	Exception specifiers are a mechanism that allows us to use a function declaration to specify whether a function may or will not throw exceptions. This can be useful in determining whether a function call needs to be put inside a try block or not.
+
+	int doSomething() throw();
+	int doSomething() throw(double);
+	int doSomething() throw(...);
+
+Exception Classes:
+	An exception class is just a normal class that is designed specifically to be thrown as an exception.
+
+	Rule: Handlers for derived exception classes should be listed before those for base classes.
+
+	As of C++17, there are 25 different exception classes that can be thrown, with more being added in each subsequent language standard.
+
+	The good news is that all of these exception classes are derived from a single class called std::exception. std::exception is a small interface class designed to serve as a base class to any exception thrown by the C++ standard library.
+
+Rethrowing exceptions:
+	Occasionally you may run into a case where you want to catch an exception, but not want to (or have the ability to) fully handle it at the point where you catch it. This is common when you want to log an error, but pass the issue along to the caller to actually handle.
+
+	int getIntValueFromDatabase(Database *d, std::string table, std::string key)
+	{
+    	assert(d);
+ 
+    	try
+    	{
+        	return d->getIntValue(table, key); // throws Derived exception on failure
+    	}
+    	catch (Base &exception)
+    	{
+        	// Write an error to some global logfile
+        	g_log.logError("doSomethingImportant failed");
+ 
+        	throw exception; // Danger: this throws a Base object, not a Derived object
+    	}
+	}
+
+	C++ provides a way to rethrow the exact same exception as the one that was just caught. To do so, simply use the throw keyword from within the catch block (with no associated variable).
+
+	try
+    {
+        try
+        {
+            throw Derived();
+        }
+        catch (Base& b)
+        {
+            std::cout << "Caught Base b, which is actually a ";
+            b.print();
+            std::cout << "\n";
+            throw; // note: We're now rethrowing the object here
+        }
+    }
+    catch (Base& b)
+    {
+        std::cout << "Caught Base b, which is actually a ";
+        b.print();
+        std::cout << "\n";
+    }
+
+    . When rethrowing the same exception, use the throw keyword by itself.
+
+Function try blocks:
+	Function try blocks are designed to allow you to establish an exception handler around the body of an entire function, rather than around a block of code.
+
+	class B : public A
+	{
+		public:
+			B(int x) try : A(x) // note addition of try keyword here
+			{
+			}
+			catch (...) // note this is at same level of indentation as the function itself
+			{
+                // Exceptions from member initializer list or constructor body are caught here
+ 
+                std::cerr << "Exception caught\n";
+ 
+                // If an exception isn't explicitly thrown here, the current exception will be implicitly rethrown
+			}
+	};
+
+Exception handling is best used when all of the following are true:
+
+	. The error being handled is likely to occur only infrequently.
+	. The error is serious and execution could not continue otherwise.
+	. The error cannot be handled at the place where it occurs.
+	. There isn’t a good alternative way to return an error code back to the caller.

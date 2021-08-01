@@ -1,0 +1,4 @@
+. top command in Linux is used To view the CPU usage of all processes.
+. It refreshes every 3 seconds.
+. Press i to filter out idle procesess 
+. Press k to kill any process, then enter process id

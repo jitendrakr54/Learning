@@ -1,0 +1,12 @@
+. Redirection simply means capturing output from a file command or program and sending it to another file
+  command or program.
+
+==> Redirect input of cat to a file
+    cat > test.txt
+
+==> Append to existing file
+    cat >> test.txt
+
+==> Transfer content of files to another file
+    cat file1.txt file2.txt > out .txt
+

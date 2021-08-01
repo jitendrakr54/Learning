@@ -1,0 +1,23 @@
+1. Create a cpp file with some function, let's say add.cpp and sub.cpp
+2. Create a header file while will have function declaration of these two file, basic.h
+3. Compile these two files, using "g++ -c filename", which will generate object files
+4. In Linux, there is a convention that every library should start with "lib" and should have extension 
+   as ".a" eg: libbasic.a
+5. Create library file using command "ar rs libbasic.a add.o sub.o"
+6. Now we can delete add.cpp sub.cpp and object files as we don't need it.
+7. Now we can test this by using in any program
+8. Compile our program "g++ -c demo.cpp"
+9. If any error compile using "g++ -I . -c demo.cpp",  This means whatever file demo.cpp includes is available
+   in current directory.
+10. Now we need to link our created library with client object file (demo.o), therea are two ways
+    1. first compile client program, using "g++ -c demo.cpp" and then link our library with demo.object
+        "g++ -o demo demo.o libbasic.a"
+    2. direct way: "g++ -o demo -L . demo.o -lbasic"
+
+
+1. g++ -c add.cpp
+2. g++ -c sub.cpp
+3. ar rs libbasic.a add.o sub.o
+4. rm add.cpp sub.cpp
+5. g++ -c demo.cpp
+6. g++ -o demo -L . demo.o -lbasic

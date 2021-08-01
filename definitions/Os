@@ -1,0 +1,221 @@
+>> Why os uses RAM instead of Hard disk to run any application?
+	. Accessing RAM is millions times faster than Hard disk.
+	. OS uses both hard disk and RAM because we want advantages such as program should be faster and data should be permanent.
+	. To make program faster OS use Ram and data to be permanent hard disk will be used. But ultimately both program and data will be loaded in RAM
+	  in order to execute program. For this, data will be copied into RAM to work closely with program.
+
+	. The main functionality of operating system is resource allocation or resource management.
+
+
+	Every device will have a buffer(register) associated with it.
+
+Process:
+	A program in execution is called as process.
+
+Stages Of Process:
+	1. New State
+	2. Ready State
+	3. Running State
+	4. Waiting State
+	5. I/O State     / Block State
+	6. Suspend Ready State  
+	7. Supend Wait State
+
+Degree Of multiprogramming:
+	Maximum no of processess can be placed in RAM in our computer is called as Degree of multiprogramming.
+
+CPU Efficiency:
+	= useful time of CPU/total time of CPU
+	. grater CPU efficiency, more faster our system
+
+Types of Operating System:
+	1. Batch OS         
+	2. Multiprogramming OS
+	3. Multiprocessing OS
+
+	Batch OS:
+		. Degree of multiprogramming is one i.e at max only one process can be present in RAM at a time, one processor
+		. not used now a days, used long back
+
+	Multiprogramming OS:
+		. can have more than one process/program(multi) in RAM, one processor
+		. CPU efficiency will be improved
+
+	Multiprocessing OS:
+		. more than one CPU(processor) (multi) will be present,  can have more than one process(multi) in RAM
+		. means more than one process can be executed by different CPU parallely.
+
+	.Passive Entity
+	.Active Entity
+
+	. Process Control Block:
+		Every process will have seperate PCB.
+
+Long Term Scheduler:
+	Out of so many programs(500) which and all programs(50) should be loaded in RAM, will be decided by algorithm Long Term Scheduler.
+
+Short Terma Scheduler:
+	Out of some process/program which process should be accessed by CPU, will be decided by algorithm Short Term Scheduler.
+
+Swap in / Swap out:
+	. When there is no speace left in the RAM and higher priority process has to be executed -
+		Moving a process(higher priority) from hard disk to RAM is called as Swap in.
+		Moving a process(lower priority) from RAM to Hard disk back is called as Swap out.
+
+	This is done by medium term scheduler.	
+
+Medium Term Scheduler:
+	Out of so many processors which processes should be swap in/out, will be decided by Medium Term Scheduler.
+
+Context Of a process:
+	The PCB and attributes of a process is called as context.
+
+Context switching:
+	Changing the state of processor is called as context switching.
+
+Various times related to a process:
+	1. Arrival Time : Time at which a process is moved from hard disk to RAM.
+	2. Burst Time(also known as execution time)
+	3. Completion time : Time at which a process is completed it's exceution and removed from RAM.
+	4. Turn-around time : Time between Arrival time and Compltetion time. (Completion time - Arrival time) or (BT + I/O time + WT)
+	5. Waiting time : Time spent by a process in the RAM without actually executing as well as not performing I/O, it is simply waiting 					in the RAM to be picked by the CPU for exceution in the future.
+	6. Response time : 
+	7. I/O time : The amount of time which is spent by a process in performing I/O after it has arrived to RAM until it's completion is 				called as I/O time.
+
+	Point in Time:
+		Arrival time
+		Completion time
+
+	Duration in Time:
+		Burst Time
+		Turn Around Time
+		Waiting Time
+		Response Time
+
+CPU Scheduling Algorithm:
+	1. Preemtive Scheduling Algorithm
+	2. Non-Preemtive Scheduling Algorithm
+
+	Preemtive Scheduling Algorithm:
+		In case a process is being executed and another higher priority process comes in RAM, under this algorithm excuting process will be preemted
+		and higher priority process will start exceuting.
+
+	Non-Preemtive Scheduling Algorithm:
+		In case a process is being exceted and another higher priority process comes in RAM, under this algorithm excuting process will not be preemted
+		even if another process has higher priority that of executing process.
+
+	. CPU Scheduling Algorithms are applied only to process which are in Ready state.
+	. Processess which are in I/O state will be blocked and so those processes will not be considered by scheduling algorithms while 	sheduling.
+
+Shortest Job First Sheduling Algorithm:
+	. Among the arrived processes, process with the least burst time(excution time) will be given preference.
+	. It is non-preemtive sheduling algorithm. also it is priority based algorithm.
+
+Thorughput:
+	. No of processes exceuted per unit time.
+	. no of processes/schedule length
+
+Schedule Length:
+	. Completion time of last process - Arrival time of first process
+
+Shortest Remaining Time First Scheduling Algorithm(SRTF):
+	. It is preemtive sheduling algorithm(Preemtive version of SJF)
+	. If all processes arrive to RAM then SRTF behave exactly like SJF.
+
+Response Time:
+	. Waiting time of that process until it gets CPU for the first time.
+	. Time spent by a process before getting the CPU for the first time.
+	. In any non-preemtive sheduling algorithm, response time is equal to waiting time. But this need not to be true for preemptive 
+		sheduling algorithm.
+
+First Come First Serve Scheduling Algorithm(FCFS):
+	. The process has the least arrival time will be scheduled first.
+	. It is a non pre-emptive scheduling aldorithm.
+	. It is a priority based scheduling.
+
+Starvation:
+	. An algorithm suffers from starvation problem if there is a chance for a process in the ready state to wait indefinitely to get the CPU.
+	. Any priority based scheduling algorithm always has a chance that one of it's process can starve or one of it's procees can wait 
+	  indefinitely.
+	. The first process which arrived into the RAM will go out of the RAM first, such process will be starvation free.
+
+Waiting Indefinitely:
+	There is no upperr bound on the time for which process might have to wait. Waiting time keep on increasing.
+	Something which are not sure about.
+
+Convoy Effect:
+	. A smaller process(a process with very small execution time) waiting for one big process to get off(release) the CPU.
+	. An algoritm with convoy effect problem may lead to higher waiting time and higher TAT in comparison to an algorithm without 
+	  convoy effect problem.
+	. FCFS and SJF suffers from convoy effect whereas SRTF doesn't.
+	. Practical implementation of SJF and SRTF is difficult than FCFS. Because in these two algorithm burst time of each process.
+
+Thorughput:
+	. No of processes exceuted per unit time.
+	. no of processes/schedule length
+	. Higher the throughput, more efficient will the computer be.
+	. SRTF has better throughput than FCFS and SJF because SJF once it has taken the bigger process it will not preempt and take the smaller process but ic case of SRTF it will pick the smaller process first and another smaller process arrives in RAM it will preemt running process and start executing smaller process.
+
+Longest Job First Scheduling Algorithm:
+	. Among all arrived processes, process with the largest burst time will be scheduled first.
+	. It is a non-preemtive sheduling algorithm, also it is a priority based algorithm.
+
+	Disadvantages:
+		1. Starvation problem exists
+		2. Convoy effect problem exists
+		3. Throughput is very less
+		4. Practically very difficult to implement
+
+Longest Remaining Time First Scheduling Algorithm:
+	. Among all arrived processes, process with the longest burst time will be scheduled first.
+	. It is a preemtive scheduling algorithm.
+
+	Disadvantages:
+		1. Starvation problem exists
+		2. Convoy effect problem exists
+		3. Throughput is very less
+		4. Practically difficult to implement
+
+Time Quantum:
+	. Maximum allowable time a process can run without getting preemted.
+
+Round-Robin Scheduling Algorithm:
+	. It is a combination of Time quantum and FCFS.
+	. It works on the basis of a particular time quantum.
+	. Uses queue data structure.
+	. Very popular and used in most of the OS's body.
+	. No process will be present more than once in a queue.
+	. As time quantum increases, no of context swicthes will decrease.
+	. As time quantum increases, mostly response time will also increase. 
+
+	Advantages of Round-Robin Scheduling Algorithm:
+		. No starvation problem
+		. No convoy effect problem
+		. Practically inmplementable
+		. Response time
+
+	Linitation:
+		Throughput is good but not as good as SJF, SRTF.
+
+Highest Response Next Scheduling Algorithm:
+	. It is a non-preemtive algorithm.
+	. Response Ratio = ((w+b)/b)
+		w = waiting time of a process so far
+		b = burst time
+ 	. Favours not only shorter process but also limits the waiting time of longer process.
+
+Dispatcher:
+	. Let's say there is a process(P1) being executed by CPU and another higher priority process comes to CPU then process would have 
+	  updated some register in order to execute(P1) so that P1 will be executed by CPU in future. so those register value will be 
+	  restored by dispatcher.
+	. Dispatcher is also a part of operating system.
+	. Which process to be executed by CPU, processor will call dispatcher.  
+
+
+Memory Basics:
+	. Memory is referred to RAM.
+	. Disk is referred to Hard disk.
+	. Register is faster than all types of memory in computer system.
+	. CPU always ask for a word.
+
+Computer organisation & Architecture

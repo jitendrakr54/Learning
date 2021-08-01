@@ -1,0 +1,6 @@
+PING google.com (142.250.196.46) 56(84) bytes of data.
+64 bytes from maa03s45-in-f14.1e100.net (142.250.196.46): icmp_seq=1 ttl=114 time=12.4 ms
+
+--- google.com ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 12.353/12.353/12.353/0.000 ms

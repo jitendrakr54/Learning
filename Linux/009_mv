@@ -1,0 +1,19 @@
+SYNTAX:
+    mv options <source> <destination>
+
+==> To rename file
+    mv file1.txt file2.txt
+
+==> move file to a directory
+    mv file1.txt dir/
+
+    Note: if file1.txt already exist in dir/ then dir/file.txt will be overwritten
+
+==> interactive overwrite
+    mv -i file1.txt dir/
+
+==> move dir2 to dir
+    mv dir dir2
+
+    Note: If destination directory doesn't exist then source directoy will be renamed
+

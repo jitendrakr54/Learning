@@ -1,0 +1,48 @@
+
+Monday to Friday:
+	Morning:
+		OS
+		Processes
+		Linux
+		Shell Scripting
+
+	Day:
+		Multithreading
+		STL
+		
+		GIT, Make & Omake
+		Revision - OOPS, Basics, String
+
+		Design pattern
+		Boost, GDB
+
+	Evening:
+		Domain - Payment
+
+		Data Structures
+		Algo
+		programming
+		
+Saturday & Sunday:
+	OS, Linux
+	Socket programming
+	
+	Exceptions
+	Templates
+	Smart pointers
+
+	SQL, Database connectivity
+	
+	Payment Domain
+		EMV
+
+
+. Shell: On systems with multiple command interpreters to choose from, the interpreters are known as Shells
+
+
+SQL
+Valgrind
+
+finding memory dump
+
+static

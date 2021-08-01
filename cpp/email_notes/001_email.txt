@@ -1,0 +1,29 @@
+. Email Address not Email ID
+    eg: Can I please have your email Address?
+        Can you please read out Mr. Gupta's email Address? -> read out means padhkr bolna
+        Let me give you my email Address.
+
+. Email Address: A unique identifier for an email account.
+    It has 3 parts:
+    . Username
+    . @ - at, not at the rate
+    . domain name
+
+    eg: The Domain extension is incorrect, it should be .in instead of .com
+        I have sent you an email.
+        Did you get my email?
+        Did you get a chance to go through my email? in formal way
+        When did you send the email?
+        I haven't received your email yet.
+        Let me refresh my inbox once.
+        Oh, your email was sitting in my junk folder.
+        Let me move it from Junk folder to inbox.
+        The email is stuck in the outbox.
+        I mistakenly deleted that email.
+        I can't find that email now.
+        Once you have written the email, please run it by me. (ekbar jab email likh lo to mujhe pdha dena)
+        Would you please check your sent folder and tell me which date you sent this mail on?
+        I always archive my important emails.
+        How often do you empty your deleted folder?
+        My emails aren't downoading due to poor internet connectivity.
+        

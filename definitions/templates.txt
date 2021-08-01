@@ -1,0 +1,141 @@
+Template :
+	A template is a model that serves as a pattern for creating similar objects.
+	A template is not a class or a function -- it is a stencil used to create classes or functions.
+	
+	Function template:
+		Function templates are functions that serve as a pattern for creating other similar functions. The basic idea behind function templates is 
+		to create a function without having to specify the exact type(s) of some or all of the variables. Instead, we define the function using 
+		placeholder types, called template type parameters. Once we have created a function using these placeholder types, we have effectively 
+		created a “function stencil”.
+
+		template parameter declaration : template <typename T>
+		eg:
+			template <typename T> // this is the template parameter declaration
+			T max(T x, T y)
+			{
+    			return (x > y) ? x : y;
+			}
+
+	Function template instance:
+		when the compiler encounters a call to a template function, it replicates the template function and replaces the template type parameters 
+		with actual types. The function with actual types is called a function template instance.
+
+		The compiler is smart enough to know it only needs to create one template instance per set of unique type parameters (per file). It’s also 
+		worth noting that if you create a template function but do not call it, no template instances will be created.
+
+	Template type parameter
+
+	Template Class:
+		Template classes are instanced in the same way template functions are -- the compiler stencils out a copy upon demand, with the template 
+		parameter replaced by the actual data type the user needs, and then compiles the copy. If you don’t ever use a template class, the compiler
+		won’t even compile it.
+
+		Template classes are ideal for implementing container classes, because it is highly desirable to have containers work across a wide variety
+		of data types, and templates allow you to do so without duplicating code. Although the syntax is ugly, and the error messages can be cryptic,
+		template classes are truly one of C++’s best and most useful features.
+
+		eg:
+			template <class T>
+			class Array
+			{
+			private:
+			    int m_length{};
+			    T *m_data{};
+			 
+			public:			 
+			    Array(int length) {
+			        assert(length > 0);
+			        m_data = new T[length]{};
+			        m_length = length;
+			    }
+			 
+			    Array(const Array&) = delete;
+			    Array& operator=(const Array&) = delete;
+			 
+			    ~Array() {
+			        delete[] m_data;
+			    }
+			 
+			    void Erase() {
+			        delete[] m_data;
+			        // We need to make sure we set m_data to 0 here, otherwise it will
+			        // be left pointing at deallocated memory!
+			        m_data = nullptr;
+			        m_length = 0;
+			    }
+			 
+			    T& operator[](int index) {
+			        assert(index >= 0 && index < m_length);
+			        return m_data[index];
+			    }
+			 
+			    // templated getLength() function defined below
+			    int getLength() const; 
+			};
+
+			// member functions defined outside the class need their own template declaration
+			template <class T>
+			int Array<T>::getLength() const // note class name is Array<T>, not Array
+			{
+			  return m_length;
+			}
+
+		. A template is not a class or a function -- it is a stencil used to create classes or functions.
+
+	Template Non-type parameters:
+		A template non-type parameter is a special type of parameter that does not substitute for a type, but is instead replaced by a value.
+
+		. A value that has an integral type or enumeration
+		. A pointer or reference to a class object
+		. A pointer or reference to a function
+		. A pointer or reference to a class member function
+		. std::nullptr_t
+
+		eg:
+			template <class T, int size> // size is the non-type parameter
+			class StaticArray {
+				private:
+    				// The non-type parameter controls the size of the array
+    				T m_array[size];
+ 
+				public:
+				    T* getArray();
+					
+				    T& operator[](int index) {
+				        return m_array[index];
+				    }
+			};
+ 
+
+	Function template specialization:
+		There are cases where it is useful to implement a templated function slightly different for a specific data type.
+		eg:
+			template <>
+			void Storage<double>::print()
+			{
+			    std::cout << std::scientific << m_value << '\n';
+			}
+
+	Class template specialization:
+		Class template specialization allows us to specialize a template class for a particular data type (or data types, if there are multiple 
+		template parameters).
+
+		eg:
+			template <> // the following is a template class with no templated parameters
+			class Storage8<bool> // we're specializing Storage8 for bool
+			{};
+
+	Partial template specialization:
+		Partial template specialization allows us to specialize classes (but not individual functions!) where some, but not all, of the template 
+		parameters have been explicitly defined. For our challenge above, the ideal solution would be to have our overloaded print function work with
+		StaticArray of type char, but leave the length expression parameter templated so it can vary as needed. Partial template specialization allows us
+		to do just that!
+
+		eg:
+			// overload of print() function for partially specialized StaticArray<char, size>
+			template <int size> // size is still a templated expression parameter
+			void print(StaticArray<char, size> &array) // we're explicitly defining type char here
+			{
+				for (int count{ 0 }; count < size; ++count)
+					std::cout << array[count];
+			}

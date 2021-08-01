@@ -1,0 +1,81 @@
+Email consists of following parts:
+    . Subject line
+    . Greeting
+    . Message
+    . Closing
+    . Signature
+
+Informal: You forgot to send attachment with this email.
+Formal: I didn't find any attachment with this email. Can you please send it again?
+
+Informal: Wassup?
+Formal:   I hope everything is fine.
+
+Informal: I am confused about it.
+Formal:   I am not sure about it.
+
+Subject line:
+
+Rules:
+    1. Don't write in all caps. Few words can be in upper case to highlight. 
+       eg: OFFER, SALE.
+           Get a Free Coke with a Regular Pizza
+
+    2. Mention the referror.
+       eg: Refferred by Mr. Ravi Verma for Accountant Job.
+           Refferred by Mr. Deepak Kumar for Office Furniture.
+           Mr. Pankal Jain Recommended You for App Development.
+    
+    3. Tell the Expected action
+       eg:  Confirmation required: project Meeting with Team
+            Approval requested: 10 Chairs for Meeting Room
+            January Sales data requested
+            Project status requested
+    
+    4. Start with the Most Important Words
+       eg:  Cab not available between 4 to 7 pm today
+            Printer not working on first floor
+            Exams postponed for all classes
+            Payment pending for your stationery order
+
+    5. Refer to the Previous Meeting
+       eg: Met you at Delhi Exhibition. Can we connect?
+           Met you at Auto Expo - Have a proposal for you
+           Met you in train - Can we discuss a business idea?
+    
+    6. Create Urgency
+       eg: Rush! Hurry! Last day of discount
+           Limited Period Offer: 30% Off on All Furniture
+
+    7. Use a question
+       eg: Want to reduce your electricity bill by 50%?
+           Looking for a job?
+           Want to save tax?
+           Want to settle in Australia?
+
+    8. Educate People:
+       eg: 5 Tips to Save Money.
+           10 Tips to Double Your Income.
+           5 hotels in Goa Under Rs. 1000
+           How to lose weight without dieting.
+
+    9. Use Company name - Client name
+       eg: HCL - PayTM: Project Timeline
+           HCL - PayTM: Invoice for March
+    
+    10. Keep Subject Line Short
+        eg: Samples of our work 
+            Gentle reminder for Payment
+            Documents for Visa
+            More details requested for clearance
+            Your health check-up report
+            Application for casual leave
+            Enquiry about spare parts
+            Question regarding ABC project
+            Complaint for defective stock
+
+    11. No spelling errors
+
+    Note: When someone reply to any email, there will be RE: prefixed automatically. Don't remove that.
+          RE: means regarding
+          Same way when we forward any email, there will be FW: prefixed automatically. Don't remove that.

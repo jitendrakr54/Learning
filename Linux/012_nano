@@ -1,0 +1,3 @@
+. One of the simplest editors installed in most systems is "nano" in Linux and “pico” in UNIX. 
+. Start “nano” by typing its name at the command prompt. If you type “nano filename”, where “filename” is
+  the name of an existing file, nano will open the file for editing.

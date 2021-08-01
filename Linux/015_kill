@@ -1,0 +1,13 @@
+. kill: You can terminate process with kill command. The command uses one or more PID’s as its argument.
+    $ kill 122 129 115
+
+. ps: This command will displayed the process status .submmission time,required CPU time, Process name.
+
+. $ ps [option]
+    -a: Print all terminal process.
+    -e: Print all current process.
+    -t: Print all processes of listed terminal.
+    -u: Displays processes of listed user.
+
+. sleep: This command will suspend the execution of shell. The maximum limit of sleep is 18000 second.
+  Unfortunately keep the terminal idle.

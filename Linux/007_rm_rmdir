@@ -1,0 +1,16 @@
+==> Syntax:
+    rmdir -ptions <dirname>
+
+==> remove directory
+    rmdir abc 
+
+==> remove alongwith subdirectories
+    rmdir a/b/c/d/e    -> It only removes lower level subdirectories means "e"
+
+    rmdir -p a/b/c/d/e ->Removes whole directory structures
+
+==> Show processes while removing directories
+    rmdir -pv a/b/c/d/e
+
+==> Removing directories and subdirectories alongwith files in subdirectories
+    rm -r a/

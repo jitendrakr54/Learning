@@ -1,0 +1,19 @@
+CI - Continuous Integration:
+    . A process where team members integrate their work Continuously in a shared repository.
+    . Best achieved using some SCM tools like GIT-Bitbucket.
+    . Can be daily or as needed integration or checkin in the repo is validated by automated build,
+      automated unit or integration tests.
+    
+
+CD - Continuous Delivery:
+    . After the CI process, Deployment on a production like environment and running automation tests to
+      ensure the build is ready for release.
+    . Ensures the build is always in a Deployable state.
+    . It includes from dev, test and staging environment.
+    . Staging is production like environment, also called as pre-prod environment.
+
+
+CD - Continuous Deployment:
+    . Automated Deployment to prod
+    . Every change that passes through automation tests is deployed to production.
+

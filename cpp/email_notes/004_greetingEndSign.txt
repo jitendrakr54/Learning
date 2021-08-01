@@ -1,0 +1,86 @@
+Greeting:
+
+    Dear Mr. (Last name),
+    Dear Mr. (First name Last name),
+
+    Hello Mr. Gupta,
+    Hello Mr. Ajay Gupta,
+
+    Good morning Mr. Gupta,
+    Good afternoon Mr. Gupta,
+    Good evening Mr. Gupta,
+
+    Good Day Mr. Gupta
+
+    Hi Mr. Gupta,
+    Hi Dr. Gupta,
+
+    If multiple recipient:
+    Dear Mr. Verma, Mr. Singh, Mr. Siddiqui, and Mr. Paul,
+
+    If we don't want to mention all name or we don't know name:
+    Hello everyone,
+
+    We can use Ms.(Miss) for female, like we use Mr. for Male
+
+    Dear Ms. Kapoor,
+    Dear Ms. Shalini Kapoor,
+
+    Hi Ms. Kaushik,
+    Hello Ms. Fernandes,
+
+    Good day Ms. Chakraborty,
+        Good morning Dr. trivedi,
+
+    If we don't know whether recipient is Male or female
+        Dear sir/madam,
+
+    If we are sending email to a person with specific designaton, and don't kno their name
+        To the VP of Sales,
+        To the HR manager,
+        To the CEO,
+
+    If our mail is not specific to any person, and it is like announcement or notice
+        To whom it may concern:
+
+
+
+Closing of email:
+    Thnak you,
+    Sincerely,
+    Your sincerely,
+    Sincerely yours,
+
+    Regards,
+    Best regards,
+    Warm regards,
+
+    All the best,
+    Best,
+
+    If Thanks is already mentioned in our email then we can write somthing else than Thanks or
+        Thanks again,
+
+    Mostly used in USA,
+        Cheers,
+        Best wishes,
+
+    Don't use in formal email:
+        C ya, See you later, Bye, Catch you later, Love, Take care, Hugs, XOXO, Thx, Emogies
+
+
+Sgnature:
+    Name
+    Designaton
+    Company name
+    Contact no, with code if talikng to international customer
+    Email
+
+    eg:
+        Jitendra Kumar Gupta
+        Sr. Software Engineer
+        Mercedes Benz Research and Development India
+        (+91) 9380893885
+        jitendra_kumar.gupta@daimler.com
+
+        

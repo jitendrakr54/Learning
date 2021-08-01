@@ -1,0 +1,24 @@
+SYNTAX:
+    cp options <source> <Destination>
+
+==> Copy content of file1 to file2, If file2.txt doesn't exist, new file will be created
+    cp file1.txt file3.txt
+
+==> Copy file to directory
+    cp file1.txt names
+
+==> Copy multiple files to directory
+    cp file1.txt file2.txt names
+
+==> Interactive overwrite 
+    cp -i file1.txt names
+
+==> copy files in current directory which exist in some other directory
+    cp ../file1.txt ../file2.txt .
+
+==> copy a directory which contains files to another directory
+    cp -R dir1 dir3   // R stands for recursive 
+    Note: 1. If destination directory doesn't exist then new directory(destination) will be created
+             and contents of source directory will be copied to destination directory
+          2. If destination directory exist then source directory will be copied to destination directory
+

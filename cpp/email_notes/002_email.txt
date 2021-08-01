@@ -1,0 +1,46 @@
+Unread - Unred not unrid
+
+Flag/Star - To check email later
+
+To:
+    To whom we want to send email.
+    The one who has to take action on that email.
+cc - carbon copy:
+    For information/knowledge to someone. exact copy will be sent to cc
+bcc - blind carbon copy:
+    Sometimes we don't want to let "to" person know that we are sending copy of email to someone then 
+    use bcc. To person will not get to know that whom this mail was bcced but bcc person can see whom it
+    was sent(to).
+
+    eg:
+        Please cc me on this email?
+        Shall I bcc you on this email?
+        Didn't you cc me on that email?
+        Who all were CCed on that email?
+        I had BCCed you.
+        When you sent the email to Atul, please also CC Aditya and Sonali.
+        Okay, I have CCed Aditya and Sonali.
+        I think I forgot to CC the boss.
+        I was neither CCed, nor BCCed.
+        Whom all do you want me to send this email to?
+        No one was CCed on that email.
+        Did you get a copy of this email?
+        Who did this email come from?
+        I had marked that email as a high-priority.
+        Please also mark this email as a high-priority.
+        Please check the high-priority emails first.
+        How big an attachment can I send through the email?
+        I am sorry, our system doesn't support sending such a big attachment.
+        I am sorry, I missed attaching the file.
+
+        Do you want me to reply all?
+        Don't reply to this email yet.
+        That email is yet to be replied.
+        I'll forward that email to you right away.
+        I have forwarded that email now.
+        Don't forward this email to anyone until I tell you to do so.
+        Please forward it with the attachment.
+        Don't miss the attachment.
+        I keep moving emails to different folders so that I don't have any trouble finding important emails.
+        I will have to search for that email.
+

@@ -1,0 +1,7 @@
+. SUDO stands for Super user down
+. The sudo facility allows specified users to run specific commands as root without having to know the 
+  root password.
+. sudo uses the configuration file /etc/sudoers 
+
+. To go into super user mode
+    sudo -s

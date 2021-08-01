@@ -1,0 +1,28 @@
+. cat  command is used to show the content of a files and also to combine several files together in one file.
+. The cat command does not accept directories as input.
+
+Syntax:
+    cat options <filename>
+
+
+==> View content of file
+    cat list1.txt
+
+==> View content of multiple files
+    cat list1.txt list2.txt
+
+==> View content of file alongwith line number
+    cat -b list1.txt
+    Note: This won't add line number on blank line
+
+    cat -n list1.txt
+    Note: This will add line number on blank line as well
+
+    cat -s list1.txt
+    Note: It squeezes multiple blank line into one
+
+    cat -E list1.txt
+    Note: It adds $ to end of the line
+    
+
+

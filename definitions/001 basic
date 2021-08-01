@@ -1,0 +1,314 @@
+. why not use #define to make symbolic constants?
+  . First, because macros are resolved by the preprocessor, which replaces the symbolic name with the defined value, #defined symbolic constants do
+    not show up in the debugger (which shows you your actual code). So although the compiler would compile int max_students { numClassrooms * 30 };,
+	in the debugger you’d see int max_students { numClassrooms * MAX_STUDENTS_PER_CLASS };, and MAX_STUDENTS_PER_CLASS would not be watchable. 
+	You’d have to go find the definition of MAX_STUDENTS_PER_CLASS in order to know what the actual value was. This can make your programs harder to
+	debug.
+  . Second, macros can conflict with normal code. For example:
+	#include "someheader.h"
+	int main() {
+		int beta { 5 };
+		std::cout << beta;
+		return 0;
+	}
+	If someheader.h happened to #define a macro named beta, this simple program would break, as the preprocessor would replace the int variable beta’s
+	name with whatever the macro’s value was.
+  . Thirdly, macros don’t follow normal scoping rules, which means in rare cases a macro defined in one part of a program can conflict with code
+    written in another part of the program that it wasn’t supposed to interact with.
+
+. A better solution: Use constexpr variables
+  A better way to create symbolic constants is through use of constexpr variables:
+  constexpr int maxStudentsPerClass { 30 };
+  constexpr int maxNameLength { 30 };
+  Because these are just normal variables, they are watchable in the debugger, have normal scoping, and avoid other weird behaviors.
+
+Check this while reading lamda function
+https://en.cppreference.com/w/cpp/algorithm/for_each
+
+. Local variables:
+	. Local variables have automatic storage duration:
+		.local variables have automatic storage duration, which means they are created at the point of definition and destroyed at the end of the block
+		 they are defined in.
+
+	. Local variables have no linkage:
+		. Identifiers have another property named linkage. An identifier’s linkage determines whether other declarations of that name refer to the same
+		  object or not.
+		. Local variables have no linkage, which means that each declaration refers to a unique object. For example:
+			int main() {
+				int x { 2 }; // local variable, no linkage
+				{
+					int x { 3 }; // this identifier x refers to a different object than the previous x
+				}
+				return 0;
+			}
+		. Scope and linkage may seem somewhat similar. However, scope defines where a single declaration can be seen and used. Linkage defines whether 
+		multiple declarations refer to the same object or not.
+
+. Global Variables:
+	. Global variables have file scope and static duration:
+		. Global variables have file scope (also informally called global scope or global namespace scope), which means they are visible from the point
+		  of declaration until the end of the file in which they are declared. Once declared, a global variable can be used anywhere in the file from
+		  that point onward!
+		. Because they are defined outside of a function, global variables are considered to be part of the global namespace (hence the term “global
+		  namespace scope”).
+		. Global variables are created when the program starts, and destroyed when it ends. This is called static duration. Variables with static 
+		  duration are sometimes called static variables.
+        . Unlike local variables, which are uninitialized by default, static variables are zero-initialized by default.
+
+. Linkage:
+	An identifier’s linkage determines whether other declarations of that name refer to the same object or not.
+	. Internal Linkage:
+		. An identifier with internal linkage can be seen and used within a single file, but it is not accessible from other files (that is, it is not 
+		  exposed to the linker). This means that if two files have identically named identifiers with internal linkage, those identifiers will be 
+		  treated as independent.
+		. Global variables with internal linkage are sometimes called internal variables.
+		. To make a non-constant global variable internal, we use the static keyword.
+		eg:
+			static int g_x; // non-constant globals have external linkage by default, but can be given internal linkage via the static keyword
+			const int g_y { 1 }; // const globals have internal linkage by default
+			constexpr int g_z { 2 }; // constexpr globals have internal linkage by default
+	
+	. Functions with internal linkage:
+		. Because linkage is a property of an identifier (not of a variable), function identifiers have the same linkage property that variable 
+		  identifiers do. Functions default to external linkage (which we’ll cover in the next lesson), but can be set to internal linkage via the 
+		  static keyword.
+		  eg:
+		  	// This function is declared as static, and can now be used only within this file
+			// Attempts to access it from another file via a function forward declaration will fail
+			static int add(int x, int y)
+			{
+				return x + y;
+			}
+	. External linkage:
+		. An identifier with external linkage can be seen and used both from the file in which it is defined, and from other code files (via a forward
+		  declaration). In this sense, identifiers with external linkage are truly “global” in that they can be used anywhere in your program!
+		. Functions have external linkage by default:
+			. In order to call a function defined in another file, you must place a forward declaration for the function in any other files wishing to 
+			  use the function. The forward declaration tells the compiler about the existence of the function, and the linker connects the function calls
+			  to the actual function definition.
+		. Global variables with external linkage:
+			. Global variables with external linkage are sometimes called external variables. To make a global variable external (and thus accessible by
+			  other files), we can use the extern keyword to do so:
+			eg:
+				int g_x { 2 }; // non-constant globals are external by default
+				extern const int g_y { 3 }; // const globals can be defined as extern, making them external
+				extern constexpr int g_z { 3 }; // constexpr globals can be defined as extern, making them external (but this is useless)
+		. Variable forward declarations via the extern keyword:
+			. To actually use an external global variable that has been defined in another file, you also must place a forward declaration for the global
+			  variable in any other files wishing to use the variable. For variables, creating a forward declaration is also done via the extern keyword
+			  (with no initialization value).
+			eg:
+				a.cpp:
+					// global variable definitions
+					int g_x { 2 }; // non-constant globals have external linkage by default
+					extern const int g_y { 3 }; // this extern gives g_y external linkage
+				main.cpp:
+					#include <iostream>
+					extern int g_x; // this extern is a forward declaration of a variable named g_x that is defined somewhere else
+					extern const int g_y; // this extern is a forward declaration of a const variable named g_y that is defined somewhere else
+					
+					int main() {
+						std::cout << g_x; // prints 2
+						return 0;
+					}
+			. extern keyword has different meanings in different contexts. In some contexts, extern means “give this variable external linkage”. In other
+			  contexts, extern means “this is a forward declaration for an external variable that is defined somewhere else”.
+			. If you want to define an uninitialized non-const global variable, do not use the extern keyword, otherwise C++ will think you’re trying to
+			  make a forward declaration for the variable.
+			. Although constexpr variables can be given external linkage via the extern keyword, they can not be forward declared, so there is no value
+			  in giving them external linkage.
+			eg:
+				// non-constant 
+				int g_x; // variable definition (can have initializer if desired)
+				extern int g_x; // forward declaration (no initializer)
+				
+				// constant
+				extern const int g_y { 1 }; // variable definition (const requires initializers)
+				extern const int g_y; // forward declaration (no initializer)
+
+Static local variables:
+	. Using the static keyword on a local variable changes its duration from automatic duration to static duration. This means the variable is now
+	  created at the start of the program, and destroyed at the end of the program (just like a global variable). As a result, the static variable
+	  will retain its value even after it goes out of scope!
+
+
+Type conversion:
+	The process of converting a value from one data type to another is called a type conversion. Type conversions can happen in many different cases:
+	. When assigning to or initializing a variable with a value of a different data type:
+	  eg: double d{ 3 }; // initialize double variable with integer value 3
+		  d = 6; // assign double variable the integer value 6
+	. When passing a value to a function where the function parameter is of a different data type:
+	  eg: 	void doSomething(long l) {}
+			doSomething(3); // pass integer value 3 to a function expecting a long parameter
+	. When returning a value from a function where the function return type is of a different data type:
+	  eg: float doSomething() {
+             return 3.0; // Return double value 3.0 back to caller through float return type
+		  }
+	. Using a binary operator with operands of different types:
+	  eg: double division{ 4.0 / 3 }; // division with a double and an integer
+
+	. There are two basic types of type conversion: implicit type conversion, where the compiler automatically transforms one data type into another,
+	  and explicit type conversion, where the developer uses a casting operator to direct the conversion.
+
+	Implicit type conversion:
+		. Implicit type conversion (also called automatic type conversion or coercion) is performed whenever one data type is expected, but a 
+		  different data type is supplied. If the compiler can figure out how to do the conversion between the two types, it will. 
+		  If it doesn’t know how, then it will fail with a compile error.
+		  eg: long l{ 64 }; // widen the integer 64 into a long
+			  double d{ 0.12f }; // promote the float 0.12 into a double
+
+		. There are two basic types of implicit type conversion: promotions and conversions.
+
+		Numeric promotion:
+			Whenever a value from one fundamental data type is converted into a value of a larger fundamental data type from the same family, this
+			is called a numeric promotion (or widening, though this term is usually reserved for integers). For example, an int can be widened into
+			a long, or a float promoted into a double:
+			. The important thing to remember about promotions is that they are always safe, and no data loss will result.
+
+		Numeric conversions:
+			When we convert a value from a larger type to a similar smaller type, or between different types, this is called a numeric conversion.
+			eg: double d{ 3 }; // convert integer 3 to a double (between different types)
+				short s{ 2 }; // convert integer 2 to a short (from larger to smaller type within same type family)
+			. Unlike promotions, which are always safe, conversions may or may not result in a loss of data. Because of this, code that causes an
+			  implicit conversion to be performed will often cause the compiler to issue a warning.
+			. However, converting from a larger integral or floating point type to a smaller similar type will generally work so long as the value
+			  fits in the range of the smaller type.
+			. Conversions that could cause loss of information, e.g. floating point to integer, are called narrowing conversions. Since information
+			  loss is generally undesirable, brace initialization doesn’t allow narrowing conversions.
+			  eg: double d{ 10.0 };
+				  int i{ d }; // Error: A double can store values that don't fit into an int
+
+		Explicit conversion:
+			. Implicit type conversion is performed whenever one data type is expected, but a different data type is supplied.
+			  Explicit type conversion happens when the user uses a type cast to explicitly convert a value from one type to another type.
+
+std::exit:
+	. std::exit() is a function that causes the program to terminate normally. Normal termination means the program has exited in an expected way.
+	. std::exit() performs a number of cleanup function. First, objects with static storage duration are destroyed. Then some other miscellaneous 
+	  file cleanup is done if any files were used. Finally, control is returned back to the OS, with the argument passed to std::exit() used as the
+	  status code.
+	. One important note about calling std::exit() explicitly: std::exit() does not clean up any local variables (either in the current function, or
+	  in functions up the call stack). Because of this, it’s generally better to avoid calling std::exit()
+
+std::atexit:
+	. C++ offers the std::atexit() function, which allows you to specify a function that will automatically be called on program termination via 
+	  std:exit()
+	  eg:
+	  	void cleanup() {
+			// code here to do any kind of cleanup required
+			std::cout << "cleanup!\n";
+		}
+		
+		int main() {
+			std::atexit(cleanup); // register cleanup() to be called automatically when std::exit() is called
+			std::cout << 1 << '\n';
+			std::exit(0); // terminate and return status code 0 to operating system
+			// The following statements never execute
+			std::cout << 2 << '\n';
+			return 0;
+		}
+
+Unit Testing:
+	. Testing a small part of your code in isolation to ensure that “unit” of code is correct is called unit testing. Each unit test is designed to 
+	  ensure that a particular behavior of the unit is correct.
+	
+Code coverage:
+	. The term code coverage is used to describe how much of the source code of a program is executed while testing.
+	
+Assertions:
+	. An assertion is an expression that will be true unless there is a bug in the program. If the expression evaluates to true, the assertion 
+	  statement does nothing. If the conditional expression evaluates to false, an error message is displayed and the program is terminated 
+	  (via std::abort). This error message typically contains the expression that failed as text, along with the name of the code file and the line
+	  number of the assertion. This makes it very easy to tell not only what the problem was, but where in the code the problem occurred. This can
+	  help with debugging efforts immensely.
+	. In C++, runtime assertions are implemented via the assert preprocessor macro, which lives in the <cassert> header.
+	  eg:
+	  	double calculateTimeUntilObjectHitsGround(double initialHeight, double gravity) {
+		assert(gravity > 0.0); // The object won't reach the ground unless there is positive gravity.
+		if (initialHeight <= 0.0) {
+			// The object is already on the ground. Or buried.
+			return 0.0;
+		}
+		return std::sqrt((2.0 * initialHeight) / gravity);
+		}
+	. Here’s a little trick you can use to make your assert statements more descriptive. Simply add a string literal joined by a logical AND:
+	  eg:
+	  	assert(found && "Car could not be found in database");
+	. Here’s why this works: A string literal always evaluates to Boolean true. So if found is false, false && true is false. If found is true, true
+	  && true is true. Thus, logical AND-ing a string literal doesn’t impact the evaluation of the assert.
+
+	static_assert:
+		. C++11 added another type of assert called static_assert. A static_assert is an assertion that is checked at compile-time rather than at 
+		  runtime, with a failing static_assert causing a compile error. Unlike assert, which is declared in the <cassert> header, static_assert is 
+		  a keyword, so no header needs to be included to use it.
+
+			A static_assert takes the following form:
+			static_assert(condition, diagnostic_message)
+		. eg:
+			static_assert(sizeof(long) == 8, "long must be 8 bytes");
+			static_assert(sizeof(int) == 4, "int must be 4 bytes");
+			
+			int main() {
+				return 0;
+			}
+			On the author’s machine, when compiled, the compiler errors:
+			1>c:\consoleapplication1\main.cpp(19): error C2338: long must be 8 bytes
+
+Enumeration:
+	. An enumerated type (also called an enumeration or enum) is a data type where every possible value is defined as a symbolic constant 
+	  (called an enumerator). Enumerations are defined via the enum keyword.
+
+	. Enumerator scope:
+	  Because enumerators are placed into the same namespace as the enumeration, an enumerator name can’t be used in multiple enumerations within 
+	  the same namespace:
+	  eg:
+		enum Color
+		{
+			RED,
+			BLUE, // BLUE is put into the global namespace
+			GREEN
+		};
+ 
+		enum Feeling
+		{
+			HAPPY,
+			TIRED,
+			BLUE // error, BLUE was already used in enum Color in the global namespace
+		};
+
+	. What are enumerators useful for?
+	  Enumerated types are incredibly useful for code documentation and readability purposes when you need to represent a specific, predefined set 
+	  of states.
+
+	. Enum classes:
+	  Although enumerated types are distinct types in C++, they are not type safe, and in some cases will allow you to do things that don’t make sense.
+	  C++11 defines a new concept, the enum class (also called a scoped enumeration), which makes enumerations both strongly typed and strongly scoped.
+	  To make an enum class, we use the keyword class after the enum keyword.
+	  With enum classes, the compiler will no longer implicitly convert enumerator values to integers.
+	  eg:
+		Color color{ Color::blue };
+	
+		std::cout << color; // won't work, because there's no implicit conversion to int
+		std::cout << static_cast<int>(color); // will print 1
+
+
+ Struct:
+ 	C++ allows us to create our own user-defined aggregate data types. An aggregate data type is a data type that groups multiple individual variables 
+	together. One of the simplest aggregate data types is the struct. A struct (short for structure) allows us to group variables of mixed data types
+	together into a single unit.
+
+
+Array:
+	Passing arrays to functions:
+	. When a normal variable is passed by value, C++ copies the value of the argument into the function parameter. Because the parameter is a copy,
+	  changing the value of the parameter does not change the value of the original argument.
+	. However, because copying large arrays can be very expensive, C++ does not copy an array when an array is passed into a function. Instead, the
+	  actual array is passed. This has the side effect of allowing functions to directly change the value of array elements!
+	. 
+
+
+
+
+Enter passphrase for key '/c/Users/Jitendra/.ssh/id_rsa': Jitendra@93
+	
+

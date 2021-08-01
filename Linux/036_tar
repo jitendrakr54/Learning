@@ -1,0 +1,10 @@
+TAR -> Tape archive
+
+Syntax: tar <parameter> <nameoftarfile> <folderehichwewanttotar>
+
+==> To zip any folder
+    tar -cvf test.tar test
+
+c -> To create Tar file
+v -> verbose, to see progress of creating tar files
+f -> to provide name of tar file

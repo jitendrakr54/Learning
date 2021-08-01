@@ -1,0 +1,51 @@
+. ls command Lists the files in the current directory, in alphanumeric order, except files starting with the
+    “.” character. ls lists information about the FILEs (the current directory by default).  
+. Sort entries alphabetically if none of -cftuvSUX nor --sort is specified.
+
+Syntax:
+    ls [options] [fileordirectoryname]
+
+==> list the content of current directory
+    ls
+    
+==> list content of home directory
+    ls ~
+
+==> list content of root directory
+    ls /
+
+==> list content in more details
+    ls -l
+
+==> list content alongwith hiddenfles
+    ls -a
+
+==> list content as sorted by size
+    ls -lS
+
+=> list content as sorted by time
+    ls -lt
+
+=> list content as sorted by time in reverse
+    ls -ltr
+
+==> list only specific type of files
+    ls *.txt
+
+==> save output of ls in any files
+    ls -lS > out.txt
+
+==> list only hidden files
+    ls -ld .?*
+    
+==> list only directories
+    ls -d */
+
+==> list directories alongwith subdirectories
+    ls -d */*
+
+==> list files alongwith files in subdirectory(recursively)
+    ls -R
+
+==> list files in particular directory
+    ls -R testTar/
