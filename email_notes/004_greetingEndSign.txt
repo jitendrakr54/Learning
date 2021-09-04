@@ -46,7 +46,7 @@ Greeting:
 
 
 Closing of email:
-    Thnak you,
+    Thank you,
     Sincerely,
     Your sincerely,
     Sincerely yours,
@@ -58,7 +58,7 @@ Closing of email:
     All the best,
     Best,
 
-    If Thanks is already mentioned in our email then we can write somthing else than Thanks or
+    If Thanks is already mentioned in our email then we can write something else than Thanks or
         Thanks again,
 
     Mostly used in USA,

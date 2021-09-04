@@ -1,0 +1,75 @@
+
+. Don't write details in all caps
+    
+. Don't use abbreviation but some are allowed.
+  eg:
+  FYI - For your information.
+        . FYI, I will be late today.
+        . FYI - Deepak is on leave today.
+        . I am meeting him thi afternoon, FYI.
+
+  BTW - By the way (If you are speaking about something and you remembered something else, then before
+                    speaking about first thing if you have to speak about second thing)
+        . BTW, I have requested the boss to approve your leave.
+        . BTW, I haven't received the sales report yet.
+        . BTW, is Mr. Anand still in Pune?
+
+  OOO - Out of Office
+        . I will be OOO starting 10th December till 15th December
+        . My I know if Mr.Dixit is still OOO?
+        . Sorry, I couldn't reply to your email as I was OOO.
+
+
+Auto-responder:
+    I will be OOO from 3rd Jan to 14th Jan 2021 with a limited access to my emails.
+    If there is anything urgent, please contact my manager Anil Deshmukh on 
+    anil.deshmukh@company.com
+
+  PFA - Please find attached
+    . PFA the signed copy of the invoice.
+    . PFA the copy of my passport.
+    . PFA the saled data for November 2020.
+
+  ASAP - As soon as possible
+    . I will get back to yu ASAP.
+    . Let's complete this project ASAP.
+    . I will try to arrange a meeting wih the customer ASAP.
+    . We need to find a solution to this problem ASAP.
+
+Days and Dates:
+    . Can we meet on Thursday, 17th December at 10 am?
+    . My boss is available for a call on Tuesday, 24th November at 3 pm.
+    
+    It's better to mention date if mentioning next Monday, Friday etc.
+
+    . Can we do a conference call next Monday, 17th December, anytime between 2 to 3 p?
+    . Please let me know if it works for you, or feel free to suggest another time if it doesn'take
+      suit you.
+
+
+To make sentence more polite:
+    Can I suggest something? -> Can i just suggest something?
+    I didn't like it. -> I didn't quite like it.
+    It's too expensive. -> It is a bit too expensive.
+    There is a problem. -> There is a slight problem.
+    I can't meet you this Friday. -> I am affraid I won't be able to meet you this Friday.
+    The team doesn't have time to work on this project. 
+                        -> I am affraid the team isn't available to work on this project.
+    Can you call me at 3 pm? -> Would it be possible for you to call me at 3 pm?
+    You should call him now. -> You may want to call him now.
+    We should hire more people. -> Shouldn't we hire more people?
+    This plan would be better.  -> Wouldn't this plan be better?
+    It will be difficult to sell. -> Won't it be difficult to sell?
+    I don't agree with you.          -> I see your point, but the demand is quite low, so we might not 
+                               be able to sell this product.
+    It's a bad idea right now.        -> I don't think it's a good idea right now.  
+    Can you give us some more time?   -> Could you please allow us some more time?
+    I want to have your reply ASAP.    -> I would like to have your replyat the earliest possbile.
+    There is a problem with your data. -> There seems to be a problem with the data provide by you.
+
+If you are saying no to someone.
+    . Sorry, but it's a bit difficult to comlete the project be tomorrow.
+    . Sorry, but I think we are not ready yet to take up this project.
+    . Sorry, but i's not very easy.
+
+

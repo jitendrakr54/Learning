@@ -1,0 +1,9 @@
+/home/jitendra/Learning/cpp/05_cmake/cmake_udm/cmake2/build/CMakeFiles/rebuild_cache.dir
+/home/jitendra/Learning/cpp/05_cmake/cmake_udm/cmake2/build/CMakeFiles/edit_cache.dir
+/home/jitendra/Learning/cpp/05_cmake/cmake_udm/cmake2/build/CMakeFiles/calculator.dir
+/home/jitendra/Learning/cpp/05_cmake/cmake_udm/cmake2/build/math/CMakeFiles/rebuild_cache.dir
+/home/jitendra/Learning/cpp/05_cmake/cmake_udm/cmake2/build/math/CMakeFiles/edit_cache.dir
+/home/jitendra/Learning/cpp/05_cmake/cmake_udm/cmake2/build/math/CMakeFiles/math.dir
+/home/jitendra/Learning/cpp/05_cmake/cmake_udm/cmake2/build/print/CMakeFiles/rebuild_cache.dir
+/home/jitendra/Learning/cpp/05_cmake/cmake_udm/cmake2/build/print/CMakeFiles/edit_cache.dir
+/home/jitendra/Learning/cpp/05_cmake/cmake_udm/cmake2/build/print/CMakeFiles/print.dir

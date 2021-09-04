@@ -1,6 +1,0 @@
-/home/jitendra/Learning/cpp/cmake/build/CMakeFiles/rebuild_cache.dir
-/home/jitendra/Learning/cpp/cmake/build/CMakeFiles/edit_cache.dir
-/home/jitendra/Learning/cpp/cmake/build/CMakeFiles/HELLOWORLD.dir
-/home/jitendra/Learning/cpp/cmake/build/arithmetics/CMakeFiles/rebuild_cache.dir
-/home/jitendra/Learning/cpp/cmake/build/arithmetics/CMakeFiles/edit_cache.dir
-/home/jitendra/Learning/cpp/cmake/build/arithmetics/CMakeFiles/adder.dir

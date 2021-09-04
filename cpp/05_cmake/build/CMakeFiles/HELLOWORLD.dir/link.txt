@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/HELLOWORLD.dir/main.cpp.o -o HELLOWORLD   -L/home/jitendra/Learning/cpp/cmake/arithmetics  -Wl,-rpath,/home/jitendra/Learning/cpp/cmake/arithmetics arithmetics/libadder.a 

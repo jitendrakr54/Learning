@@ -25,5 +25,5 @@
         Would you please check your sent folder and tell me which date you sent this mail on?
         I always archive my important emails.
         How often do you empty your deleted folder?
-        My emails aren't downoading due to poor internet connectivity.
+        My emails aren't downloading due to poor internet connectivity.
         

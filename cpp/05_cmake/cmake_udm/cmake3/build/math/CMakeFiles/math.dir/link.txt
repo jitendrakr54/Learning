@@ -1,0 +1,2 @@
+/usr/bin/ar qc libmath.a CMakeFiles/math.dir/src/addition.cpp.o CMakeFiles/math.dir/src/division.cpp.o
+/usr/bin/ranlib libmath.a
