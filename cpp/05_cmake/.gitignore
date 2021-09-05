@@ -11,3 +11,9 @@ cmake_udm/cmake3/build/*
 
 cmake_udm/cmake4/build/*
 !cmake4/build/.gitkeep
+
+cmake_udm/cmake5/build/*
+!cmake5/build/.gitkeep
+
+cmake_udm/cmake7/build/*
+!cmake7/build/.gitkeep
