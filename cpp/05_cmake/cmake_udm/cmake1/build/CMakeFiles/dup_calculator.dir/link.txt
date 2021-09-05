@@ -1,1 +1,0 @@
-/usr/bin/c++ -rdynamic CMakeFiles/dup_calculator.dir/main.cpp.o -o dup_calculator  libarithmetic.a libprint.a 

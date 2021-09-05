@@ -1,2 +1,0 @@
-/usr/bin/ar qc libarithmetic.a CMakeFiles/arithmetic.dir/addition.cpp.o CMakeFiles/arithmetic.dir/division.cpp.o
-/usr/bin/ranlib libarithmetic.a

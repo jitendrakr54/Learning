@@ -1,6 +1,0 @@
-/home/jitendra/Learning/cpp/05_cmake/cmake_udm/cmake1/build/CMakeFiles/rebuild_cache.dir
-/home/jitendra/Learning/cpp/05_cmake/cmake_udm/cmake1/build/CMakeFiles/edit_cache.dir
-/home/jitendra/Learning/cpp/05_cmake/cmake_udm/cmake1/build/CMakeFiles/dup_calculator.dir
-/home/jitendra/Learning/cpp/05_cmake/cmake_udm/cmake1/build/CMakeFiles/print.dir
-/home/jitendra/Learning/cpp/05_cmake/cmake_udm/cmake1/build/CMakeFiles/calculator.dir
-/home/jitendra/Learning/cpp/05_cmake/cmake_udm/cmake1/build/CMakeFiles/arithmetic.dir
