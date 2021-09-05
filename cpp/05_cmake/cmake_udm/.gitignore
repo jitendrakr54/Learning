@@ -1,4 +1,0 @@
-# Exclude everything
-cmake1/build/*
-# Exception to the rule
-!cmake1/build/.gitkeep
