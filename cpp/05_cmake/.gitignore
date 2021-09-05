@@ -3,11 +3,11 @@ cmake_udm/cmake1/build/*
 # Exception to the rule
 !cmake1/build/.gitkeep
 
-# cmake_udm/cmake2/build/*
+cmake_udm/cmake2/build/*
 !cmake2/build/.gitkeep
 
-# cmake_udm/cmake3/build/*
+cmake_udm/cmake3/build/*
 !cmake3/build/.gitkeep
 
-# cmake_udm/cmake4/build/*
+cmake_udm/cmake4/build/*
 !cmake4/build/.gitkeep
