@@ -20,3 +20,7 @@ install(TARGETS math DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/math)
 install(TARGETS math EXPORT my_export DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/math)
 
 install(EXPORT my_export FILE math-config.cmake DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/math)
+
+
+
+# Tips: Run cmake, make, sudo install make

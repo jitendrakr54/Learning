@@ -1,3 +1,4 @@
+# Macros in Ccmake
 cmake_minimum_required(VERSION 3.0.0)
 
 # function(print_detail name_var)
